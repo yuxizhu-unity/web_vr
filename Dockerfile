@@ -7,4 +7,6 @@ ADD . /home/
 WORKDIR /home
 RUN  npm install 
 
+EXPOSE 3000
+
 CMD node app.js --no-daemon
