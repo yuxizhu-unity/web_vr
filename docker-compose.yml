@@ -1,0 +1,15 @@
+version: '3'
+services:
+  web_vr:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    container_name: web_vr
+    ports:
+      - "3000:3000"
+    networks:
+      - web_vr
+
+networks:
+  web_vr:
+      driver: bridge
