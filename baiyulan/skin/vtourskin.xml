@@ -1,4 +1,4 @@
-﻿<krpano>
+﻿<krpano version="1.20" logkey="true" showerrors="true" debugmode="true">
 
 	<!-- krpano 1.20.3 - Virtual Tour Skin -->
 
@@ -12,8 +12,10 @@
 	               littleplanetintro="false"
 	               followmousecontrol="false"
 	               title="true"
-	               thumbs="true"
-	               thumbs_width="120" thumbs_height="80" thumbs_padding="10" thumbs_crop="0|40|240|160"
+	               thumbs_width="80"
+				   thumbs_height="80"
+				   thumbs_padding="10"
+				   thumbs_crop="0|40|240|160"
 	               thumbs_opened="true"
 	               thumbs_text="true"
 	               thumbs_dragging="true"
@@ -27,16 +29,13 @@
 	               loadscene_blend="OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)"
 	               loadscene_blend_prev="SLIDEBLEND(0.5, 180, 0.75, linear)"
 	               loadscene_blend_next="SLIDEBLEND(0.5,   0, 0.75, linear)"
-	               loadingtext="loading..."
+	               loadingtext="加载中..."
 	               layout_width="100%"
 	               layout_maxwidth="100%"
 	               controlbar_width="100%"
 	               controlbar_height="40"
 	               controlbar_offset="0"
 	               design_skin_images="vtourskin.png"
-	               design_bgcolor="0x000000"
-	               design_bgalpha="0.3"
-	               design_bgshadow="0 4 10 0x000000 0.3"
 	               design_thumbborder_bgborder="3 0xFFFFFF 1.0"
 	               design_thumbborder_padding="2"
 	               design_thumbborder_bgroundedge="0"
@@ -222,10 +221,17 @@
 	<!-- skin layout -->
 	<layer name="skin_layer" keep="true" type="container" align="top" width="get:skin_settings.layout_width" maxwidth="get:skin_settings.layout_maxwidth" height="100%" maskchildren="true" visible="false" bgcapture="false" zorder="1">
 		<layer name="skin_scroll_window" type="container" align="bottom" width="100%" height="100%" x="0" y="calc:skin_settings.controlbar_offset + skin_settings.controlbar_height" maskchildren="true" onloaded="skin_calc_opened_closed();" zorder="1">
-			<layer name="skin_thumbs_scroll_layer" type="container" align="bottom" width="get:skin_settings.controlbar_width" height="100%" x="0" accuracy="1" bgalpha="get:skin_settings.design_bgalpha" bgcolor="get:skin_settings.design_bgcolor" bgshadow="get:skin_settings.design_bgshadow">
-				<layer name="skin_scroll_container" type="container" align="leftbottom" width="100%" height="100%" x="0" y="10" maskchildren="true">
+			<layer name="skin_thumbs_scroll_layer" type="container" align="bottom" width="get:skin_settings.controlbar_width" height="100" x="0" y="110" accuracy="1" bgalpha="0.3" bgcolor="0x000000">
+				<layer name="skin_thumbs_scroll_container" type="container" align="leftbottom" width="100%" height="100%" x="0" y="10" maskchildren="true">
 					<layer name="skin_thumbs_container" keep="true" type="container" align="lefttop" y="10" width="100%" height="100%" visible="false">
 						<layer name="skin_thumbs" state="closed" url.flash="%VIEWER%/plugins/scrollarea.swf" url.html5="%VIEWER%/plugins/scrollarea.js" direction="h" align="top" width="100%" height="100" zorder="1" onloaded="skin_updatescroll();" onscroll="skin_updatethumbscroll();" />
+					</layer>
+				</layer>
+			</layer>
+			<layer name="skin_collects_scroll_layer" type="container" align="bottom" width="get:skin_settings.controlbar_width" height="100" x="0" y="0" accuracy="1" bgalpha="0.3" bgcolor="0x000000">
+				<layer name="skin_collects_scroll_container" type="container" align="leftbottom" width="100%" height="100%" x="0" y="10" maskchildren="true">
+					<layer name="skin_collects_container" keep="true" type="container" align="lefttop" y="10" width="100%" height="100%" visible="false">
+						<layer name="skin_collects" state="closed" url.flash="%VIEWER%/plugins/scrollarea.swf" url.html5="%VIEWER%/plugins/scrollarea.js" direction="h" align="top" width="100%" height="100" zorder="1" />
 					</layer>
 				</layer>
 			</layer>
@@ -267,16 +273,19 @@
 	<action name="skin_startup" scope="local">
 
 		<!-- apply skin settings on startup -->
-		if(skin_settings.thumbs,
-			if(skin_settings.thumbs_opened,
-				set(layer[skin_thumbs].state, 'opened');
-				set(layer[skin_thumbs_container].visible, true);
-			);
-			copy(layer[skin_thumbs].draggable, skin_settings.thumbs_dragging);
-			if(skin_settings.thumbs_onhoverscrolling AND device.mouse,
-				set(layer[skin_thumbs].draggable, false);
-				set(layer[skin_thumbs].onhover_autoscrolling, true);
-			);
+		if(skin_settings.thumbs_opened,
+			set(layer[skin_thumbs].state, 'opened');
+			set(layer[skin_thumbs_container].visible, true);
+			set(layer[skin_collects].state, 'opened');
+			set(layer[skin_collects_container].visible, true);
+		);
+		copy(layer[skin_thumbs].draggable, skin_settings.thumbs_dragging);
+		copy(layer[skin_collects].draggable, skin_settings.thumbs_dragging);
+		if(skin_settings.thumbs_onhoverscrolling AND device.mouse,
+			set(layer[skin_thumbs].draggable, false);
+			set(layer[skin_thumbs].onhover_autoscrolling, true);
+			set(layer[skin_collects].draggable, false);
+			set(layer[skin_thumbs].onhover_autoscrolling, true);
 		);
 
 		if(skin_settings.gyro AND !device.desktop AND device.html5,
@@ -288,67 +297,124 @@
 			skin_setup_littleplanetintro();
 		);
 
+		skin_addcollects();
 		skin_addthumbs();
+		skin_showthumbsbycollect(get(scene[0].collect));
 		skin_onresize();
 		skin_updatescroll();
 
 		set(layer[skin_layer].visible, true);
 	</action>
 
-	<action name="skin_addthumbs" scope="local">
-		if(skin_settings.thumbs == false,
-			set(layer[skin_btn_thumbs].visible,false);
-		  ,
-			copy(thumbwidth, skin_settings.thumbs_width);
-			copy(thumbheight, skin_settings.thumbs_height);
-			copy(thumbpadding, skin_settings.thumbs_padding);
-			copy(thumbcrop, skin_settings.thumbs_crop);
-
-			calc(thumbxoffset, thumbwidth + thumbpadding);
-			calc(thumbxcenter, thumbxoffset * 0.5);
-			calc(thumbbarwidth, thumbxoffset * scene.count + thumbpadding);
-			calc(thumbbarheight, thumbpadding + thumbheight + thumbpadding);
-
-			set(layer[skin_thumbs], width=get(thumbbarwidth), height=get(thumbbarheight) );
-
-			for(set(i,0), i LT scene.count, inc(i),
-				calc(thumbname, 'skin_thumb_' + i);
-				addlayer(get(thumbname));
-
-				set(layer[get(thumbname)],
+	<action name="skin_addcollects" scope="local">
+		def(actualcount, integer, 0);
+		copy(thumbwidth, skin_settings.thumbs_width);
+		copy(thumbheight, skin_settings.thumbs_height);
+		copy(thumbpadding, skin_settings.thumbs_padding);
+		copy(thumbcrop, skin_settings.thumbs_crop);
+		calc(thumbxoffset, thumbwidth + thumbpadding);
+		
+		for(set(i,0), i LT scene.count, inc(i),
+			if(get(scene[get(i)].collecttitle)!==null AND get(scene[get(i)].collect)!==null,
+				add(actualcount, 1);
+				calc(collectname, 'skin_collect_' + actualcount);
+				addlayer(get(collectname));
+				set(layer[get(collectname)],
 					url=get(scene[get(i)].thumburl),
 					keep=true,
-					parent='skin_thumbs',
+					parent='skin_collects',
 					align='lefttop',
 					crop=get(thumbcrop),
 					width=get(thumbwidth),
 					height=get(thumbheight),
-					x=calc(thumbpadding + i*thumbxoffset),
+					x=calc(thumbpadding + (actualcount-1)*thumbxoffset),
 					y=get(thumbpadding),
-					linkedscene=get(scene[get(i)].name),
-					onclick='copy(layer[skin_thumbborder].parent, name); skin_loadscene(get(linkedscene),get(skin_settings.loadscene_blend));'
-				);
-				
-				set(scene[get(i)], 
-					thumbx=calc(thumbpadding + i*thumbxoffset + thumbxcenter),
-					thumby=get(thumbpadding)
+					collectname=get(scene[get(i)].collect),
+					onclick='skin_showthumbsbycollect(get(collectname));'
 				);
 				
 				if(skin_settings.tooltips_thumbs,
-					set(layer[get(thumbname)].tooltip, get(scene[get(i)].title) );
-					layer[get(thumbname)].loadstyle(skin_tooltips);
+					set(layer[get(collectname)].tooltip, get(scene[get(i)].collecttitle) );
+					layer[get(collectname)].loadstyle(skin_tooltips);
 				);
 				if(skin_settings.thumbs_text,
-					calc(thumbtext, 'skin_thumbtext_' + i);
-					addlayer(get(thumbtext));
-					layer[get(thumbtext)].loadstyle(skin_thumbtext_style);
-					set(layer[get(thumbtext)], keep=true, parent=get(thumbname), html=get(scene[get(i)].title) );
+					calc(collecttext, 'skin_collecttext_' + actualcount);
+					addlayer(get(collecttext));
+					layer[get(collecttext)].loadstyle(skin_thumbtext_style);
+					set(layer[get(collecttext)], keep=true, parent=get(collectname), html=get(scene[get(i)].collecttitle) );
 				);
-			 );
-
-			if(scene.count == 1,
-				set(layer[skin_thumbs].align, 'lefttop');
 			);
+		);
+		
+		calc(thumbbarwidth, thumbxoffset * actualcount + thumbpadding);
+		calc(thumbbarheight, thumbpadding + thumbheight + thumbpadding);
+		set(layer[skin_collects], width=get(thumbbarwidth), height=get(thumbbarheight));
+
+		if(actualcount == 1,
+			set(layer[skin_collects].align, 'lefttop');
+		);
+	</action>
+
+	<action name="skin_showthumbsbycollect" scope="local" args="collectname">
+		def(count, integer, 0);
+		copy(thumbwidth, skin_settings.thumbs_width);
+		copy(thumbheight, skin_settings.thumbs_height);
+		copy(thumbpadding, skin_settings.thumbs_padding);
+		calc(thumbxoffset, thumbwidth + thumbpadding);
+		for(set(i,0), i LT scene.count, inc(i),
+			calc(thumbname, 'skin_thumb_' + i);
+			trace(get(layer[get(thumbname)].collectname), collectname);
+			if(layer[get(thumbname)].collectname===collectname,
+				add(count, 1);
+				set(layer[get(thumbname)].visible, true);
+				set(layer[get(thumbname)].x, calc(thumbpadding + (count-1)*thumbxoffset));
+				,set(layer[get(thumbname)].visible, false);
+			);
+		);
+		calc(thumbbarwidth, thumbxoffset * count + thumbpadding);
+		calc(thumbbarheight, thumbpadding + thumbheight + thumbpadding);
+		set(layer[skin_thumbs], width=get(thumbbarwidth), height=get(thumbbarheight) );
+	</action>
+
+	<action name="skin_addthumbs" scope="local">
+		copy(thumbwidth, skin_settings.thumbs_width);
+		copy(thumbheight, skin_settings.thumbs_height);
+		copy(thumbcrop, skin_settings.thumbs_crop);
+		copy(thumbpadding, skin_settings.thumbs_padding);
+		
+		for(set(i,0), i LT scene.count, inc(i),
+			calc(thumbname, 'skin_thumb_' + i);
+			addlayer(get(thumbname));
+
+			set(layer[get(thumbname)],
+				url=get(scene[get(i)].thumburl),
+				keep=true,
+				parent='skin_thumbs',
+				align='lefttop',
+				crop=get(thumbcrop),
+				width=get(thumbwidth),
+				height=get(thumbheight),
+				y=get(thumbpadding)
+				visible=false,
+				collectname=get(scene[get(i)].collect),
+				linkedscene=get(scene[get(i)].name),
+				onclick='copy(layer[skin_thumbborder].parent, name); skin_loadscene(get(linkedscene),get(skin_settings.loadscene_blend));'
+			);
+			
+			if(skin_settings.tooltips_thumbs,
+				set(layer[get(thumbname)].tooltip, get(scene[get(i)].title) );
+				layer[get(thumbname)].loadstyle(skin_tooltips);
+			);
+			if(skin_settings.thumbs_text,
+				calc(thumbtext, 'skin_thumbtext_' + i);
+				addlayer(get(thumbtext));
+				layer[get(thumbtext)].loadstyle(skin_thumbtext_style);
+				set(layer[get(thumbtext)], keep=true, parent=get(thumbname), html=get(scene[get(i)].title) );
+			);
+		);
+
+		if(scene.count == 1,
+			set(layer[skin_thumbs].align, 'lefttop');
 		);
 	</action>
 
@@ -370,7 +436,7 @@
 						skin_deeplinking_update_url();
 						delete(global.lpinfo);
 						skin_showskin();
-						if(skin_settings.thumbs AND skin_settings.thumbs_opened, skin_showthumbs() );
+						if(skin_settings.thumbs_opened, skin_showthumbs() );
 					);
 				  ,
 					delete(global.lpinfo);
@@ -397,18 +463,18 @@
 
 
 	<action name="skin_onresize" scope="local">
-		mul(mh, area.pixelheight, -1);
+		<!-- mul(mh, area.pixelheight, -1);
 		if(layer[skin_thumbs].state == 'opened', add(mh,layer[skin_thumbs].height););
-		set(layer[skin_thumbs_scroll_layer].y, get(mh));
+		if(layer[skin_collects].state == 'opened', add(mh,layer[skin_collects].height););
 		if(display.safearea_inset, calc(layer[skin_btn_show].y, skin_settings.controlbar_height - (display.safearea_inset.b LT 0 ? display.safearea_inset.b : 0)); );
-		skin_arrange_buttons();
+		skin_arrange_buttons(); -->
 	</action>
 
 
 	<!-- determine the visibility of the buttons and calculate their positions -->
 	<action name="skin_arrange_buttons" scope="local">
 		calc(show_selbuttons, scene.count GT 1);
-		calc(show_thumbutton, skin_settings.thumbs == true);
+		calc(show_thumbutton, true);
 		calc(show_gyrobutton, plugin[skin_gyro].isavailable == true AND (view.vlookatrange == 180 OR global.lpinfo.scene === xml.scene));
 		calc(show_vrbutton,   webvr.isavailable == true);
 		calc(show_fsbutton,   device.fullscreensupport == true);
@@ -467,9 +533,10 @@
 
 	<action name="skin_updatescroll" scope="local">
 		if(layer[skin_thumbs].loaded,
-			set(cursceneindex, 0);
-			if(xml.scene, copy(cursceneindex, scene[get(xml.scene)].index));
-			layer[skin_thumbs].setcenter(get(scene[get(cursceneindex)].thumbx), get(scene[get(cursceneindex)].thumby));
+			<!-- set(cursceneindex, 0);
+			if(xml.scene, copy(cursceneindex, scene[get(xml.scene)].index)); -->
+			<!-- layer[skin_thumbs].setcenter(get(scene[get(cursceneindex)].thumbx), get(scene[get(cursceneindex)].thumby));
+			layer[skin_collects].setcenter(get(scene[get(cursceneindex)].thumbx), get(scene[get(cursceneindex)].thumby)); -->
 		);
 	</action>
 
@@ -571,7 +638,6 @@
 		);
 
 		calc(layer[skin_thumbborder].parent, 'skin_thumb_' + scene[get(newscenenameorindex)].index);
-		layer[skin_thumbs].scrolltocenter(get(scene[get(newscenenameorindex)].thumbx), get(scene[get(newscenenameorindex)].thumby));
 		loadscene(get(scene[get(newscenenameorindex)].name), null, get(skin_settings.loadscene_flags), get(blendmode));
 	</action>
 
@@ -649,20 +715,29 @@
 	</action>
 
 
-	<action name="skin_showthumbs" scope="local" args="show">
+	<action name="skin_changethumbs" scope="local" args="show">
 		if(show == null,
 			if(layer[skin_thumbs].state == 'closed', set(show,true), set(show,false));
+			if(layer[skin_collects].state == 'closed', set(show,true), set(show,false));
 		);
 		if(show,
 			set(layer[skin_thumbs].state, 'opened');
 			tween(layer[skin_thumbs].alpha, 1.0, 0.25);
-			tween(layer[skin_thumbs_scroll_layer].y, calc(-area.pixelheight + layer[skin_thumbs].height), 0.5, easeOutQuint);
+			tween(layer[skin_thumbs_scroll_layer].height, 100, 0.5, easeOutQuint);
 			set(layer[skin_thumbs_container].visible, true);
 			tween(layer[skin_thumbs_container].alpha, 1.0, 0.25);
+			set(layer[skin_collects].state, 'opened');
+			tween(layer[skin_collects].alpha, 1.0, 0.25);
+			tween(layer[skin_collects_scroll_layer].height, 100, 0.5, easeOutQuint);
+			set(layer[skin_collects_container].visible, true);
+			tween(layer[skin_collects_container].alpha, 1.0, 0.25);
 		  ,
 			set(layer[skin_thumbs].state, 'closed');
 			tween(layer[skin_thumbs].alpha, 0.0, 0.25, easeOutQuint);
-			tween(layer[skin_thumbs_scroll_layer].y, calc(-area.pixelheight), 0.5, easeOutQuint, set(layer[skin_thumbs_container].visible, false););
+			tween(layer[skin_thumbs_scroll_layer].height, 0, 0.5, easeOutQuint, set(layer[skin_thumbs_container].visible, false););
+			set(layer[skin_collects].state, 'closed');
+			tween(layer[skin_collects].alpha, 0.0, 0.25, easeOutQuint);
+			tween(layer[skin_collects_scroll_layer].height, 0, 0.5, easeOutQuint, set(layer[skin_thumbs_container].visible, false););
 		);
 	</action>
 
