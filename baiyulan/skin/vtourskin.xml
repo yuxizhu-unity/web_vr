@@ -239,7 +239,7 @@
 
 		<layer name="skin_control_bar" type="container" align="bottom" width="get:skin_settings.controlbar_width" height="calc:skin_settings.controlbar_height" x="0" y="get:skin_settings.controlbar_offset" onloaded="skin_calc_opened_closed();" zorder="3">
 			<layer name="skin_control_bar_buttons" type="container" align="leftbottom" width="100%" height="get:skin_settings.controlbar_height">
-				<layer name="skin_btn_thumbs"    style="skin_base|skin_glow" crop="0|128|64|64"  align="left"        x="50"   y="0"  scale="0.5" ondown="skin_showthumbs();" />
+				<layer name="skin_btn_thumbs"    style="skin_base|skin_glow" crop="0|128|64|64"  align="left"        x="50"   y="0"  scale="0.5" ondown="skin_togglemenu();" />
 				<layer name="skin_btn_gyro"      style="skin_base|skin_glow" crop="0|384|64|64"  align="center"      x="+140" y="0"  scale="0.5" onclick="switch(plugin[skin_gyro].enabled); if(plugin[skin_gyro].enabled" visible="false" devices="html5" />
 				<layer name="skin_btn_vr"        style="skin_base|skin_glow" crop="0|0|80|64"    align="center"      x="+146" y="0"  scale="0.5" onclick="webvr.enterVR();" visible="false" />
 				<layer name="skin_btn_fs"        style="skin_base|skin_glow" crop="0|576|64|64"  align="right"       x="90"   y="0"  scale="0.5" onclick="switch(fullscreen);" devices="fullscreensupport" visible="false" />
@@ -299,7 +299,7 @@
 
 		skin_addcollects();
 		skin_addthumbs();
-		skin_showthumbsbycollect(get(scene[0].collect));
+		skin_showthumbs(get(scene[0].collect));
 		skin_onresize();
 		skin_updatescroll();
 
@@ -330,7 +330,7 @@
 					x=calc(thumbpadding + (actualcount-1)*thumbxoffset),
 					y=get(thumbpadding),
 					collectname=get(scene[get(i)].collect),
-					onclick='skin_showthumbsbycollect(get(collectname));'
+					onclick='skin_showthumbs(get(collectname));'
 				);
 				
 				if(skin_settings.tooltips_thumbs,
@@ -355,7 +355,7 @@
 		);
 	</action>
 
-	<action name="skin_showthumbsbycollect" scope="local" args="collectname">
+	<action name="skin_showthumbs" scope="local" args="collectname">
 		def(count, integer, 0);
 		copy(thumbwidth, skin_settings.thumbs_width);
 		copy(thumbheight, skin_settings.thumbs_height);
@@ -418,6 +418,34 @@
 		);
 	</action>
 
+	<action name="skin_togglemenu" scope="local" args="show">
+		if(show == null,
+			if(layer[skin_collects].state == 'closed', set(show,true), set(show,false));
+			if(layer[skin_thumbs].state == 'closed', set(show,true), set(show,false));
+		);
+		if(show,
+			set(layer[skin_collects].state, 'opened');
+			tween(layer[skin_collects].alpha, 1.0, 0.25);
+			tween(layer[skin_collects_scroll_layer].y, 0, 0.5, easeOutQuint);
+			set(layer[skin_collects_container].visible, true);
+			tween(layer[skin_collects_container].alpha, 1.0, 0.25);
+
+			set(layer[skin_thumbs].state, 'opened');
+			tween(layer[skin_thumbs].alpha, 1.0, 0.25);
+			tween(layer[skin_thumbs_scroll_layer].y, 120, 0.5, easeOutQuint);
+			set(layer[skin_thumbs_container].visible, true);
+			tween(layer[skin_thumbs_container].alpha, 1.0, 0.25);
+		  ,
+			set(layer[skin_collects].state, 'closed');
+			tween(layer[skin_collects].alpha, 0.0, 0.25, easeOutQuint);
+			tween(layer[skin_collects_scroll_layer].y, -100, 0.5, easeOutQuint, set(layer[skin_thumbs_container].visible, false););
+
+			set(layer[skin_thumbs].state, 'closed');
+			tween(layer[skin_thumbs].alpha, 0.0, 0.25, easeOutQuint);
+			tween(layer[skin_thumbs_scroll_layer].y, -100, 0.5, easeOutQuint, set(layer[skin_thumbs_container].visible, false););
+		);
+	</action>
+
 
 	<action name="skin_setup_littleplanetintro" scope="local">
 		skin_hideskin(instant);
@@ -436,7 +464,7 @@
 						skin_deeplinking_update_url();
 						delete(global.lpinfo);
 						skin_showskin();
-						if(skin_settings.thumbs_opened, skin_showthumbs() );
+						if(skin_settings.thumbs_opened, skin_togglemenu() );
 					);
 				  ,
 					delete(global.lpinfo);
@@ -690,7 +718,7 @@
 		callwith(layer[skin_scroll_window],   skin_calc_opened_closed() );
 		callwith(layer[skin_control_bar],     skin_calc_opened_closed() );
 
-		if(layer[skin_thumbs].state != 'closed', skin_showthumbs(false); if(hidetime GT 0, wait(0.25)); );
+		if(layer[skin_thumbs].state != 'closed', skin_togglemenu(false); if(hidetime GT 0, wait(0.25)); );
 
 		tween(layer[skin_scroll_window].y,   get(layer[skin_scroll_window  ].y_closed), get(hidetime));
 		tween(layer[skin_control_bar].y,     get(layer[skin_control_bar    ].y_closed), get(hidetime));
