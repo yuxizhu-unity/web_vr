@@ -11,7 +11,7 @@
 
 	<scene name="scene_PANO0001_Panorama_equi" collect="aerial_photography" collecttitle="航拍" title="广场高空全景" onstart="" thumburl="panos/PANO0001_Panorama_equi.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="0.326" vlookat="58.430" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/PANO0001_Panorama_equi.tiles/preview.jpg" />
 
@@ -19,54 +19,60 @@
 			<cube url="panos/PANO0001_Panorama_equi.tiles/pano_%s.jpg" />
 		</image>
 		<hotspot name="spot1" style="skin_hotspotstyle" ath="-39.126" atv="44.046" linkedscene="scene_2s5a8017-hdr_panorama" />
-
+		<hotspot name="spot2" style="skin_hotspotstyle" ath="8.566" atv="29.102" linkedscene="scene_2s5a7887-hdr_panorama" />
+		<hotspot name="spot3" style="skin_hotspotstyle" ath="33.420" atv="43.355" linkedscene="scene_2s5a7642-hdr_panorama" />
+ 
 	</scene>
 
 	<scene name="scene_2S5A7642-HDR_Panorama" collect="office_building" collecttitle="办公楼塔" title="办公楼南广场" onstart="" thumburl="panos/2S5A7642-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-130.081" vlookat="3.933" fovtype="MFOV" fov="121.829" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A7642-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A7642-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-132.429" atv="0.328" linkedscene="scene_2s5a7401-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A7401-HDR_Panorama" collect="office_building" title="UG层电梯入口" onstart="" thumburl="panos/2S5A7401-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-27.320" vlookat="5.696" fovtype="MFOV" fov="90.932" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A7401-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A7401-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-25.960" atv="11.883" linkedscene="scene_2s5a7461-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A7461-HDR_Panorama" collect="office_building" title="UG入口" onstart="" thumburl="panos/2S5A7461-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-17.095" vlookat="7.488" fovtype="MFOV" fov="92.224" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A7461-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A7461-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-34.880" atv="6.824" linkedscene="scene_2s5a6076-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A6076-HDR_Panorama" collect="office_building" title="电梯厅" onstart="" thumburl="panos/2S5A6076-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="89.575" vlookat="13.277" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A6076-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A6076-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="58.560" atv="19.736" linkedscene="scene_2s5a6246-hdr_panorama_equi" />
 
 	</scene>
 
@@ -84,67 +90,72 @@
 
 	<scene name="scene_2S5A6246-HDR_Panorama_equi" collect="office_building" title="转化层空中大堂" onstart="" thumburl="panos/2S5A6246-HDR_Panorama_equi.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-55.365" vlookat="15.453" fovtype="MFOV" fov="128.984" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A6246-HDR_Panorama_equi.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A6246-HDR_Panorama_equi.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-27.963" atv="-21.379" linkedscene="scene_2s5a6501-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A6501-HDR_Panorama" collect="office_building" title="空中大堂" onstart="" thumburl="panos/2S5A6501-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-20.408" vlookat="22.204" fovtype="MFOV" fov="119.257" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A6501-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A6501-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-20.565" atv="7.448" linkedscene="scene_2s5a6631-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A6631-HDR_Panorama" collect="office_building" title="空中大堂" onstart="" thumburl="panos/2S5A6631-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="48.569" vlookat="16.651" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A6631-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A6631-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="34.087" atv="11.882" linkedscene="scene_2s5a6986-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A6986-HDR_Panorama" collect="office_building" title="高区样板层1" onstart="" thumburl="panos/2S5A6986-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="79.046" vlookat="2.072" fovtype="MFOV" fov="93.744" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A6986-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A6986-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-61.469" atv="7.030" linkedscene="scene_2s5a7181-hdr_panorama_equi" />
 
 	</scene>
 
 	<scene name="scene_2S5A7181-HDR_Panorama_equi" collect="office_building" title="高区样板层2" onstart="" thumburl="panos/2S5A7181-HDR_Panorama_equi.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-39.873" vlookat="6.898" fovtype="MFOV" fov="86.651" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A7181-HDR_Panorama_equi.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A7181-HDR_Panorama_equi.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="73.682" atv="4.669" linkedscene="scene_pano0001_panorama_(2)_equi" />
 
 	</scene>
 
 	<scene name="scene_PANO0001_Panorama_(2)_equi" collect="office_building" title="直升机停机坪" onstart="" thumburl="panos/PANO0001_Panorama_(2)_equi.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-8.135" vlookat="30.506" fovtype="MFOV" fov="90.195" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/PANO0001_Panorama_(2)_equi.tiles/preview.jpg" />
 
@@ -156,73 +167,82 @@
 
 	<scene name="scene_2S5A7887-HDR_Panorama" collect="shopping_center" collecttitle="购物中心" title="东长治路出入口及北广场" onstart="" thumburl="panos/2S5A7887-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="0.827" vlookat="-3.761" fovtype="MFOV" fov="94.472" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A7887-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A7887-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-6.405" atv="4.487" linkedscene="scene_2s5a5741-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A5741-HDR_Panorama" collect="shopping_center" title="L1层室内区域" onstart="" thumburl="panos/2S5A5741-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-7.366" vlookat="10.848" fovtype="MFOV" fov="109.398" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A5741-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A5741-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="26.016" atv="8.748" linkedscene="scene_2s5a5826-hdr_panorama" />
+		<hotspot name="spot2" style="skin_hotspotstyle" ath="134.354" atv="7.559" linkedscene="scene_2s5a5471-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A5826-HDR_Panorama" collect="shopping_center" title="L2层室内区域" onstart="" thumburl="panos/2S5A5826-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="8.471" vlookat="14.674" fovtype="MFOV" fov="105.689" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A5826-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A5826-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-136.332" atv="4.704" linkedscene="scene_2s5a5891-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A5891-HDR_Panorama" collect="shopping_center" title="L3层室内区域" onstart="" thumburl="panos/2S5A5891-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-8.011" vlookat="18.156" fovtype="MFOV" fov="99.203" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A5891-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A5891-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="106.695" atv="6.382" linkedscene="scene_2s5a7812-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A7812-HDR_Panorama" collect="shopping_center" title="L3层半室外区域" onstart="" thumburl="panos/2S5A7812-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="71.595" vlookat="20.143" fovtype="MFOV" fov="117.119" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A7812-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A7812-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-24.830" atv="4.027" linkedscene="scene_2s5a5741-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A5471-HDR_Panorama" collect="shopping_center" title="LG1层室内区域1" onstart="" thumburl="panos/2S5A5471-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-3.365" vlookat="4.024" fovtype="MFOV" fov="119.443" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A5471-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A5471-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="123.030" atv="-0.075" linkedscene="scene_2s5a5741-hdr_panorama" />
+		<hotspot name="spot2" style="skin_hotspotstyle" ath="160.079" atv="9.994" linkedscene="scene_2s5a5541-hdr_panorama" />
+		<hotspot name="spot3" style="skin_hotspotstyle" ath="143.745" atv="12.995" linkedscene="scene_2s5a5356-hdr_panorama" />
 
 	</scene>
 
@@ -235,126 +255,139 @@
 		<image>
 			<cube url="panos/2S5A5541-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="77.494" atv="4.854" linkedscene="scene_2s5a5606-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A5606-HDR_Panorama" collect="shopping_center" title="LG1层室内区域3" onstart="" thumburl="panos/2S5A5606-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="9.947" vlookat="13.043" fovtype="MFOV" fov="99.610" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A5606-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A5606-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="121.837" atv="10.393" linkedscene="scene_2s5a5666-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A5666-HDR_Panorama" collect="shopping_center" title="LG1层室外区域" onstart="" thumburl="panos/2S5A5666-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-356.865" vlookat="27.858" fovtype="MFOV" fov="135.865" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A5666-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A5666-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="94.200" atv="6.445" linkedscene="scene_2s5a5471-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A5356-HDR_Panorama" collect="shopping_center" title="LG2层室内中庭" onstart="" thumburl="panos/2S5A5356-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-10.035" vlookat="23.103" fovtype="MFOV" fov="123.428" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A5356-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A5356-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-97.551" atv="11.855" linkedscene="scene_2s5a5411-hdr_panorama" />
+		<hotspot name="spot2" style="skin_hotspotstyle" ath="-154.792" atv="14.202" linkedscene="scene_2s5a5301-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A5301-HDR_Panorama" collect="shopping_center" title="LG2层室内区域" onstart="" thumburl="panos/2S5A5301-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-15.403" vlookat="9.564" fovtype="MFOV" fov="98.518" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A5301-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A5301-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="6.180" atv="5.455" linkedscene="scene_2s5a5290_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A5207_Panorama" collect="shopping_center" title="LG2层小木屋区域1" onstart="" thumburl="panos/2S5A5207_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-148.351" vlookat="16.782" fovtype="MFOV" fov="110.111" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A5207_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A5207_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-125.732" atv="12.824" linkedscene="scene_2s5a5741-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A5290_Panorama" collect="shopping_center" title="LG2层小木屋区域2" onstart="" thumburl="panos/2S5A5290_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-12.873" vlookat="16.868" fovtype="MFOV" fov="111.696" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A5290_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A5290_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-7.568" atv="12.012" linkedscene="scene_2s5a5207_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A5411-HDR_Panorama" collect="shopping_center" title="LG2层半室外区域" onstart="" thumburl="panos/2S5A5411-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-2.042" vlookat="8.410" fovtype="MFOV" fov="118.893" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A5411-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A5411-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="55.647" atv="6.213" linkedscene="scene_2s5a5356-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A8017-HDR_Panorama" collect="w-hotel" collecttitle="外滩W酒店" title="酒店入口" onstart="" thumburl="panos/2S5A8017-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-22.855" vlookat="9.776" fovtype="MFOV" fov="113.186" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A8017-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A8017-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-42.043" atv="4.129" linkedscene="scene_2s5a4782_panorama_equi" />
 
 	</scene>
 
 	<scene name="scene_2S5A4782_Panorama_equi" collect="w-hotel" title="1层大堂" onstart="" thumburl="panos/2S5A4782_Panorama_equi.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-267.688" vlookat="3.541" fovtype="MFOV" fov="121.422" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A4782_Panorama_equi.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A4782_Panorama_equi.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-137.319" atv="9.208" linkedscene="scene_2s5a4866-hdr_panorama" />
+		<hotspot name="spot2" style="skin_hotspotstyle" ath="166.316" atv="10.166" linkedscene="scene_2s5a4695-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A4635-HDR_Panorama" collect="w-hotel" title="1层大堂" onstart="" thumburl="panos/2S5A4635-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-20.748" vlookat="3.885" fovtype="MFOV" fov="109.770" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A4635-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A4635-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-62.425" atv="13.676" linkedscene="scene_2s5a4926-hdr_panorama" />
 
 	</scene>
 
@@ -367,42 +400,46 @@
 		<image>
 			<cube url="panos/2S5A4695-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="57.890" atv="11.251" linkedscene="scene_2s5a4866-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A4866-HDR_Panorama" collect="w-hotel" title="1楼宴会厅入口" onstart="" thumburl="panos/2S5A4866-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="69.687" vlookat="7.053" fovtype="MFOV" fov="100.757" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A4866-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A4866-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-48.674" atv="8.406" linkedscene="scene_2s5a4635-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A4926-HDR_Panorama" collect="w-hotel" title="W层大堂" onstart="" thumburl="panos/2S5A4926-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-152.625" vlookat="12.368" fovtype="MFOV" fov="109.040" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A4926-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A4926-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="118.650" atv="6.774" linkedscene="scene_2s5a4996-hdr_panorama" />
 
 	</scene>
 
 	<scene name="scene_2S5A4996-HDR_Panorama" collect="w-hotel" title="W层Woobar" onstart="" thumburl="panos/2S5A4996-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="5.411" vlookat="12.499" fovtype="MFOV" fov="101.566" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A4996-HDR_Panorama.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A4996-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-4.131" atv="12.366" linkedscene="scene_2s5a5061-hdr_panorama" />
 
 	</scene>
 
@@ -415,18 +452,20 @@
 		<image>
 			<cube url="panos/2S5A5061-HDR_Panorama.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-8.553" atv="9.420" linkedscene="scene_2s5a7558-hdr_panorama_equi" />
 
 	</scene>
 
 	<scene name="scene_2S5A7558-HDR_Panorama_equi" collect="w-hotel" title="W层室外景观" onstart="" thumburl="panos/2S5A7558-HDR_Panorama_equi.tiles/thumb.jpg" lat="" lng="" heading="">
 
-		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+		<view hlookat="-126.141" vlookat="8.938" fovtype="MFOV" fov="119.706" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
 		<preview url="panos/2S5A7558-HDR_Panorama_equi.tiles/preview.jpg" />
 
 		<image>
 			<cube url="panos/2S5A7558-HDR_Panorama_equi.tiles/pano_%s.jpg" />
 		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-5.819" atv="12.015" linkedscene="scene_2s5a8017-hdr_panorama" />
 
 	</scene>
 
