@@ -32,7 +32,6 @@
 	               loadingtext="加载中..."
 	               layout_width="100%"
 	               layout_maxwidth="100%"
-	               controlbar_width="100%"
 	               controlbar_height="40"
 	               controlbar_offset="0"
 	               design_skin_images="vtourskin.png"
@@ -51,9 +50,9 @@
 	<display safearea="h-only" />
 
 	<!-- vr -->
-	<include url="./vr.xml" devices="html5" />
+	<include url="./vr.xml"/>
 	<!-- menu context -->
-	<include url="./menu_context.xml" devices="html5" />
+	<include url="./menu_context.xml"/>
 
 	<!-- mouse / touch / keyboard(button) control settings - https://krpano.com/docu/xml/#control -->
 	<control mouse="drag"
@@ -91,7 +90,6 @@
 
 	<!-- skin_base - the base skin image -->
 	<style name="skin_base" url="calc:vtourskinxmlpath.url + skin_settings.design_skin_images" />
-
 
 	<!-- skin_glow - button glowing -->
 	<style name="skin_glow"
@@ -217,18 +215,34 @@
 	       html=""
 	       />
 
+	<!-- the info dialog -->
+	<layer name="info_dialog" type="container" visible="false" keep="true" zorder="9" children="true"
+	       align="center" x="0" y="0" width="80%" height="70%" bgcolor="0xFFFFFF" bgalpha="0.8">
+		   <layer name="info_dialog_close" url="close.png" width="25" height="25" align="topright" x="15" y="15" zorder="1" enabled="true" onclick="showinfo();"/>
+		   <layer name="info_dialog_content" type="text" width="100%" height="100%" bg="false" enabled="false" html="[div class='info-dialog'][h1 class='info-dialog-title']上海白玉兰广场VR[/h1][p class='info-dialog-description']上海白玉兰广场（Shanghai Sinar Mas Plaza），地处上海北外滩黄浦江沿岸地区，位于上海市虹口区东长治路588号，东临提篮桥地区，南面与陆家嘴隔江相望，西接外滩，北眺上海音乐谷[/p][/div]"
+		   />
+	</layer>
+
+	<!-- the phone book dialog -->
+	<layer name="phone_book_dialog" type="container" visible="false" keep="true" zorder="9" children="true"
+	       align="center" x="0" y="0" width="100%" height="100%" bgcolor="0x000000" bgalpha="0.45" bgcapture="true" onclick="onhotline();">
+		   	<layer name="phone_book_dialog_content" type="text" visible="true" keep="true" zorder="9" align="center" x="0" y="0" bgcolor="0xFFFFFF" bgalpha="1.0" bgroundedge="4"
+		   	html="[div class='phone-book'][ul class='phone-book-list'][li]热线一：[a href='tel://22866851']22866851[/a][/li][li]热线二：[a href='tel://22866888']22866888[/a][/li][/ul][/div]"
+			/>
+	</layer>
 
 	<!-- skin layout -->
 	<layer name="skin_layer" keep="true" type="container" align="top" width="get:skin_settings.layout_width" maxwidth="get:skin_settings.layout_maxwidth" height="100%" maskchildren="true" visible="false" bgcapture="false" zorder="1">
-		<layer name="skin_scroll_window" type="container" align="bottom" width="100%" height="100%" x="0" y="calc:skin_settings.controlbar_offset + skin_settings.controlbar_height" maskchildren="true" onloaded="skin_calc_opened_closed();" zorder="1">
-			<layer name="skin_thumbs_scroll_layer" type="container" align="bottom" width="get:skin_settings.controlbar_width" height="100" x="0" y="110" accuracy="1" bgalpha="0.3" bgcolor="0x000000">
+		<layer name="logo_baiyulan" keep="true" type="text" url="logo_baiyulan.png" enabled="false" zorder="2" width="100" height="70" align="topleft" x="20" y="20"/>
+		<layer name="skin_scroll_window" type="container" align="bottom" width="100%" height="100%" x="0" y="40" maskchildren="true" onloaded="skin_calc_opened_closed();" zorder="1">
+			<layer name="skin_thumbs_scroll_layer" type="container" align="bottom" width="100%" height="100" x="0" y="110" accuracy="1" bgalpha="0.3" bgcolor="0x000000">
 				<layer name="skin_thumbs_scroll_container" type="container" align="leftbottom" width="100%" height="100%" x="0" y="10" maskchildren="true">
 					<layer name="skin_thumbs_container" keep="true" type="container" align="lefttop" y="10" width="100%" height="100%" visible="false">
 						<layer name="skin_thumbs" state="closed" url.flash="%VIEWER%/plugins/scrollarea.swf" url.html5="%VIEWER%/plugins/scrollarea.js" direction="h" align="top" width="100%" height="100" zorder="1" onloaded="skin_updatescroll();" onscroll="skin_updatethumbscroll();" />
 					</layer>
 				</layer>
 			</layer>
-			<layer name="skin_collects_scroll_layer" type="container" align="bottom" width="get:skin_settings.controlbar_width" height="100" x="0" y="0" accuracy="1" bgalpha="0.3" bgcolor="0x000000">
+			<layer name="skin_collects_scroll_layer" type="container" align="bottom" width="100%" height="100" x="0" y="0" accuracy="1" bgalpha="0.3" bgcolor="0x000000">
 				<layer name="skin_collects_scroll_container" type="container" align="leftbottom" width="100%" height="100%" x="0" y="10" maskchildren="true">
 					<layer name="skin_collects_container" keep="true" type="container" align="lefttop" y="10" width="100%" height="100%" visible="false">
 						<layer name="skin_collects" state="closed" url.flash="%VIEWER%/plugins/scrollarea.swf" url.html5="%VIEWER%/plugins/scrollarea.js" direction="h" align="top" width="100%" height="100" zorder="1" />
@@ -237,12 +251,30 @@
 			</layer>
 		</layer>
 
-		<layer name="skin_control_bar" type="container" align="bottom" width="get:skin_settings.controlbar_width" height="calc:skin_settings.controlbar_height" x="0" y="get:skin_settings.controlbar_offset" onloaded="skin_calc_opened_closed();" zorder="3">
-			<layer name="skin_control_bar_buttons" type="container" align="leftbottom" width="100%" height="get:skin_settings.controlbar_height">
-				<layer name="skin_btn_thumbs"    style="skin_base|skin_glow" crop="0|128|64|64"  align="left"        x="50"   y="0"  scale="0.5" ondown="skin_togglemenu();" />
-				<layer name="skin_btn_gyro"      style="skin_base|skin_glow" crop="0|384|64|64"  align="center"      x="+140" y="0"  scale="0.5" onclick="switch(plugin[skin_gyro].enabled); if(plugin[skin_gyro].enabled" visible="false" devices="html5" />
-				<layer name="skin_btn_vr"        style="skin_base|skin_glow" crop="0|0|80|64"    align="center"      x="+146" y="0"  scale="0.5" onclick="webvr.enterVR();" visible="false" />
-				<layer name="skin_btn_fs"        style="skin_base|skin_glow" crop="0|576|64|64"  align="right"       x="90"   y="0"  scale="0.5" onclick="switch(fullscreen);" devices="fullscreensupport" visible="false" />
+		<layer name="bot_control_bar" type="container" align="bottom" width="100%" height="40" x="0" y="0" onloaded="skin_calc_opened_closed();" zorder="3">
+			<layer name="btn_menu" type="container" width="30" height="30" x="20" y="5" style="light_btn_style">
+				<layer name="btn_menu_icon" url="menu.png" align="center"  width="20" height="20" ondown="skin_togglemenu();"/>
+			</layer>
+			<layer name="btn_call" type="container" width="30" height="30" x="70" y="5" style="light_btn_style">
+				<layer name="btn_call_icon" url="call.png" align="center" width="25" height="25" onclick="onhotline();"/>
+			</layer>
+		</layer>
+
+		<layer name="right_control_bar" type="container" align="topright" width="25" height="100%" x="10" y="0" onloaded="skin_calc_opened_closed();" zorder="3">
+			<layer name="btn_info" type="container" width="25" height="25" x="0" y="20" style="dark_btn_style">
+				<layer name="btn_info_icon" url="info.png" align="center"  width="13" height="13" onclick="showinfo();"/>
+			</layer>
+			<layer name="btn_music" type="container" width="25" height="25" x="0" y="60" style="dark_btn_style">
+				<layer name="btn_music_icon" url="music.png" align="center"  width="13" height="13"/>
+			</layer>
+			<layer name="btn_vr" type="container" width="25" height="25" x="0" y="100" style="dark_btn_style">
+				<layer name="btn_vr_icon" url="vr.png" align="center"  width="18" height="18" onclick="webvr.enterVR();"/>
+			</layer>
+			<layer name="btn_fs" type="container" width="25" height="25" x="40" y="140" style="dark_btn_style">
+				<layer name="btn_fs_icon" url="fullscreen.png" align="center"  width="15" height="15" onclick="switch(fullscreen);" devices="fullscreensupport"/>
+			</layer>
+			<layer name="btn_gyro" type="container" width="25" height="25" x="0" y="180" style="dark_btn_style">
+				<layer name="btn_gyro_icon" url="around.png" align="center"  width="18" height="18" onclick="switch(plugin[skin_gyro].enabled); if(plugin[skin_gyro].enabled" devices="html5"/>
 			</layer>
 		</layer>
 
@@ -252,9 +284,22 @@
 		<layer name="skin_collectborder" type="container" x="get:skin_settings.design_thumbborder_padding" y="get:skin_settings.design_thumbborder_padding" width="calc:skin_settings.thumbs_width - 2*skin_settings.design_thumbborder_padding" height="calc:skin_settings.thumbs_height - 2*skin_settings.design_thumbborder_padding" visible="false" enabled="false" align="lefttop" bgborder="get:skin_settings.design_thumbborder_bgborder" bgroundedge="get:skin_settings.design_thumbborder_bgroundedge" />
 	</layer>
 
+	<style name="light_btn_style"
+           bgalpha="0.6"
+           bgcolor="0xFFFFFF"
+           bgborder="1 0xFFFFFF 0.5"
+           bgroundedge="15"
+           bgshadow="0 1 3 0x000000 0.6"
+           />
+
+	<style name="dark_btn_style"
+           bgalpha="0.35"
+           bgcolor="0x000000"
+           bgroundedge="15"
+           />
 
 	<!-- gyro plugin -->
-	<plugin name="skin_gyro" keep="true" url="" html5_url="%VIEWER%/plugins/gyro2.js" softstart="1.0" desktopsupport="false" enabled="false" onavailable="skin_arrange_buttons();" devices="html5" />
+	<plugin name="skin_gyro" keep="true" url="" html5_url="%VIEWER%/plugins/gyro2.js" softstart="1.0" desktopsupport="false" enabled="false" onavailable="arrange_buttons();" devices="html5" />
 
 
 	<!-- skin events -->
@@ -264,8 +309,8 @@
 	        onloadcomplete="skin_showloading(false);"
 	        onidle="skin_deeplinking_update_url();"
 	        onresize="skin_onresize();"
-	        onenterfullscreen.fullscreensupport="set(layer[skin_btn_fs].crop, '64|576|64|64');"
-	        onexitfullscreen.fullscreensupport="set(layer[skin_btn_fs].crop, '0|576|64|64');"
+	        onenterfullscreen.fullscreensupport="set(layer[btn_fs].visible, true);"
+	        onexitfullscreen.fullscreensupport="set(layer[btn_fs].visible, false);"
 	        onkeydown="skin_keydown_event();"
 	        />
 
@@ -307,14 +352,23 @@
 		set(layer[skin_layer].visible, true);
 	</action>
 
-	<action name="skin_oncollectborder" scope="local" args="parentname">
-		trace(parentname);
+	<action name="oncollectborder" scope="local" args="parentname">
 		copy(layer[skin_collectborder].parent, get(parentname));
 		if(layer[get(parentname)],
 			set(layer[skin_collectborder], parent=get(parentname), visible=true);
 			,
 			set(layer[skin_collectborder].visible, false);
 		);
+	</action>
+
+	<action name="showinfo" scope="local">
+		calc(prev, get(layer[info_dialog].visible));
+		if(prev, set(layer[info_dialog].visible, false), set(layer[info_dialog].visible, true));
+	</action>
+
+	<action name="onhotline" scope="local">
+		calc(prev, get(layer[phone_book_dialog].visible));
+		if(prev, set(layer[phone_book_dialog].visible, false), set(layer[phone_book_dialog].visible, true));
 	</action>
 
 	<action name="skin_addcollects" scope="local">
@@ -341,7 +395,7 @@
 					x=calc(thumbpadding + (actualcount-1)*thumbxoffset),
 					y=get(thumbpadding),
 					collectname=get(scene[get(i)].collect),
-					onclick='skin_oncollectborder(get(name)); skin_showthumbs(get(collectname));'
+					onclick='oncollectborder(get(name)); skin_showthumbs(get(collectname));'
 				);
 				
 				if(skin_settings.tooltips_thumbs,
@@ -506,66 +560,23 @@
 		<!-- mul(mh, area.pixelheight, -1);
 		if(layer[skin_thumbs].state == 'opened', add(mh,layer[skin_thumbs].height););
 		if(layer[skin_collects].state == 'opened', add(mh,layer[skin_collects].height););
-		if(display.safearea_inset, calc(layer[skin_btn_show].y, skin_settings.controlbar_height - (display.safearea_inset.b LT 0 ? display.safearea_inset.b : 0)); );
-		skin_arrange_buttons(); -->
+		if(display.safearea_inset, calc(layer[skin_btn_show].y, skin_settings.controlbar_height - (display.safearea_inset.b LT 0 ? display.safearea_inset.b : 0)); ); -->
+		arrange_buttons();
 	</action>
 
 
 	<!-- determine the visibility of the buttons and calculate their positions -->
-	<action name="skin_arrange_buttons" scope="local">
+	<action name="arrange_buttons" scope="local">
 		calc(show_selbuttons, scene.count GT 1);
-		calc(show_thumbutton, true);
 		calc(show_gyrobutton, plugin[skin_gyro].isavailable == true AND (view.vlookatrange == 180 OR global.lpinfo.scene === xml.scene));
 		calc(show_vrbutton,   webvr.isavailable == true);
 		calc(show_fsbutton,   device.fullscreensupport == true);
+		calc(show_infobutton,   true);
+		set(vpos,0);
 
-		set(lpos,6);
-		set(cpos,0);
-		if(show_gyrobutton, dec(cpos,20));
-		if(show_vrbutton OR plugin[webvr].mobilevr_fake_support == true, dec(cpos,24));
-		set(rpos,6);
+		set(hpos,0);
 
-		calc(show_dirbuttons, !device.mobile AND ((area.pixelwidth + 2*cpos) GT 520) );
-
-		copy(layer[skin_btn_navi].visible, show_dirbuttons);
-
-		if(show_selbuttons, inc(lpos,44); inc(rpos,44); );
-
-		copy(layer[skin_btn_thumbs].visible, show_thumbutton);
-		copy(layer[skin_btn_thumbs].x, lpos);
-		if(show_thumbutton, inc(lpos,40));
-
-		if(show_dirbuttons,
-			copy(layer[skin_btn_navi].x, cpos);
-			inc(cpos,140);
-
-			set(layer[skin_btn_gyro].align, center);
-			copy(layer[skin_btn_gyro].visible, show_gyrobutton);
-			copy(layer[skin_btn_gyro].x, cpos);
-			if(show_gyrobutton, inc(cpos,48));
-
-			set(layer[skin_btn_vr].align, center);
-			copy(layer[skin_btn_vr].visible, show_vrbutton);
-			copy(layer[skin_btn_vr].x, cpos);
-			if(show_vrbutton, inc(cpos,80));
-		  ,
-			set(layer[skin_btn_gyro].align, left);
-			copy(layer[skin_btn_gyro].visible, show_gyrobutton);
-			copy(layer[skin_btn_gyro].x, lpos);
-			if(show_gyrobutton, inc(lpos,40));
-
-			set(layer[skin_btn_vr].align, left);
-			copy(layer[skin_btn_vr].visible, show_vrbutton);
-			copy(layer[skin_btn_vr].x, lpos);
-			if(show_vrbutton, inc(lpos,80));
-		);
-
-		copy(layer[skin_btn_hide].x, rpos);
-		inc(rpos,40);
-
-		copy(layer[skin_btn_fs].visible, show_fsbutton);
-		copy(layer[skin_btn_fs].x, rpos);
-		if(show_fsbutton, inc(rpos,40));
+		
 	</action>
 
 
@@ -600,9 +611,9 @@
 			);
 
 			if(plugin[skin_gyro].isavailable == true AND view.vlookatrange == 180,
-				set(layer[skin_btn_gyro].visible, true);
+				set(layer[btn_gyro].visible, true);
 			  ,
-				set(layer[skin_btn_gyro].visible, false)
+				set(layer[btn_gyro].visible, false)
 			);
 
 			if(view.vlookatrange LT 180,
@@ -704,12 +715,12 @@
 		calc(hidetime, hidetimemode == 'instant' ? 0.0 : 0.5);
 		
 		callwith(layer[skin_scroll_window],   skin_calc_opened_closed() );
-		callwith(layer[skin_control_bar],     skin_calc_opened_closed() );
+		callwith(layer[bot_control_bar],     skin_calc_opened_closed() );
 
 		if(layer[skin_thumbs].state != 'closed', skin_togglemenu(false); if(hidetime GT 0, wait(0.25)); );
 
 		tween(layer[skin_scroll_window].y,   get(layer[skin_scroll_window  ].y_closed), get(hidetime));
-		tween(layer[skin_control_bar].y,     get(layer[skin_control_bar    ].y_closed), get(hidetime));
+		tween(layer[bot_control_bar].y,     get(layer[bot_control_bar    ].y_closed), get(hidetime));
 		
 		if(layer[skin_logo], tween(layer[skin_logo].alpha, 0.0, 0.5, default, set(layer[skin_logo].visible,false)); );
 
@@ -721,7 +732,7 @@
 
 	<action name="skin_showskin">
 		tween(layer[skin_scroll_window  ].y, get(layer[skin_scroll_window  ].y_opened));
-		tween(layer[skin_control_bar    ].y, get(layer[skin_control_bar    ].y_opened));
+		tween(layer[bot_control_bar    ].y, get(layer[bot_control_bar    ].y_opened));
 
 		if(layer[skin_logo], set(layer[skin_logo].visible,true); tween(layer[skin_logo].alpha, 1.0); );
 

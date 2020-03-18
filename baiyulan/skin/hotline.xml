@@ -1,0 +1,10 @@
+<krpano version="1.20">
+	<layer name="btn_hotline" keep="true"
+	       type="text"
+	       url="call.png" enabled="false" zorder="2"
+		   width="30"
+		   height="30"
+		   align="bottomleft"
+		   x="20"
+		   y="20"/>
+</krpano>
