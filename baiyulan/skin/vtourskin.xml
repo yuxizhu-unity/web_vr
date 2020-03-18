@@ -249,6 +249,7 @@
 		<layer name="skin_loadingtext" type="text" align="center" x="5" y="-5" html="get:skin_settings.loadingtext" visible="false" bg="false" enabled="false" css="calc:skin_settings.design_text_css + ' text-align:center; font-style:italic; font-size:22px;'" textshadow="get:skin_settings.design_text_shadow" />
 		<layer name="skin_buttonglow"  style="skin_base" crop="64|384|64|64" align="center" x="0" y="1" scale="1.0" alpha="0.0" visible="false" enabled="false" />
 		<layer name="skin_thumbborder" type="container" x="get:skin_settings.design_thumbborder_padding" y="get:skin_settings.design_thumbborder_padding" width="calc:skin_settings.thumbs_width - 2*skin_settings.design_thumbborder_padding" height="calc:skin_settings.thumbs_height - 2*skin_settings.design_thumbborder_padding" visible="false" enabled="false" align="lefttop" bgborder="get:skin_settings.design_thumbborder_bgborder" bgroundedge="get:skin_settings.design_thumbborder_bgroundedge" />
+		<layer name="skin_collectborder" type="container" x="get:skin_settings.design_thumbborder_padding" y="get:skin_settings.design_thumbborder_padding" width="calc:skin_settings.thumbs_width - 2*skin_settings.design_thumbborder_padding" height="calc:skin_settings.thumbs_height - 2*skin_settings.design_thumbborder_padding" visible="false" enabled="false" align="lefttop" bgborder="get:skin_settings.design_thumbborder_bgborder" bgroundedge="get:skin_settings.design_thumbborder_bgroundedge" />
 	</layer>
 
 
@@ -306,6 +307,16 @@
 		set(layer[skin_layer].visible, true);
 	</action>
 
+	<action name="skin_oncollectborder" scope="local" args="parentname">
+		trace(parentname);
+		copy(layer[skin_collectborder].parent, get(parentname));
+		if(layer[get(parentname)],
+			set(layer[skin_collectborder], parent=get(parentname), visible=true);
+			,
+			set(layer[skin_collectborder].visible, false);
+		);
+	</action>
+
 	<action name="skin_addcollects" scope="local">
 		def(actualcount, integer, 0);
 		copy(thumbwidth, skin_settings.thumbs_width);
@@ -317,7 +328,7 @@
 		for(set(i,0), i LT scene.count, inc(i),
 			if(get(scene[get(i)].collecttitle)!==null AND get(scene[get(i)].collect)!==null,
 				add(actualcount, 1);
-				calc(collectname, 'skin_collect_' + actualcount);
+				calc(collectname, 'skin_collect_' + i);
 				addlayer(get(collectname));
 				set(layer[get(collectname)],
 					url=get(scene[get(i)].thumburl),
@@ -330,7 +341,7 @@
 					x=calc(thumbpadding + (actualcount-1)*thumbxoffset),
 					y=get(thumbpadding),
 					collectname=get(scene[get(i)].collect),
-					onclick='skin_showthumbs(get(collectname));'
+					onclick='skin_oncollectborder(get(name)); skin_showthumbs(get(collectname));'
 				);
 				
 				if(skin_settings.tooltips_thumbs,
@@ -363,7 +374,6 @@
 		calc(thumbxoffset, thumbwidth + thumbpadding);
 		for(set(i,0), i LT scene.count, inc(i),
 			calc(thumbname, 'skin_thumb_' + i);
-			trace(get(layer[get(thumbname)].collectname), collectname);
 			if(layer[get(thumbname)].collectname===collectname,
 				add(count, 1);
 				set(layer[get(thumbname)].visible, true);
@@ -400,6 +410,8 @@
 				linkedscene=get(scene[get(i)].name),
 				onclick='copy(layer[skin_thumbborder].parent, name); skin_loadscene(get(linkedscene),get(skin_settings.loadscene_blend));'
 			);
+
+			
 			
 			if(skin_settings.tooltips_thumbs,
 				set(layer[get(thumbname)].tooltip, get(scene[get(i)].title) );
@@ -517,8 +529,6 @@
 
 		copy(layer[skin_btn_navi].visible, show_dirbuttons);
 
-		copy(layer[skin_btn_prev].visible, show_selbuttons);
-		copy(layer[skin_btn_next].visible, show_selbuttons);
 		if(show_selbuttons, inc(lpos,44); inc(rpos,44); );
 
 		copy(layer[skin_btn_thumbs].visible, show_thumbutton);
@@ -582,29 +592,6 @@
 				delayedcall(0.1, set(layer[skin_title].visible,true) );
 			);
 
-			if(skin_settings.thumbs_loop == false,
-				if(scene[get(xml.scene)].index GT 0,
-					set(layer[skin_btn_prev], enabled=true, alpha=1.0);
-				  ,
-					set(layer[skin_btn_prev], enabled=false, alpha=0.3);
-				);
-
-				sub(lastsceneindex, scene.count, 1);
-				if(scene[get(xml.scene)].index LT lastsceneindex,
-					set(layer[skin_btn_next], enabled=true, alpha=1.0);
-				  ,
-					set(layer[skin_btn_next], enabled=false, alpha=0.3);
-				);
-			  ,
-				if(scene.count GT 1,
-					set(layer[skin_btn_prev], enabled=true, alpha=1.0);
-					set(layer[skin_btn_next], enabled=true, alpha=1.0);
-				  ,
-					set(layer[skin_btn_prev], enabled=false, alpha=0.3);
-					set(layer[skin_btn_next], enabled=false, alpha=0.3);
-				);
-			);
-
 			calc(parentname, 'skin_thumb_' + scene[get(xml.scene)].index);
 			if(layer[get(parentname)],
 				set(layer[skin_thumbborder], parent=get(parentname), visible=true);
@@ -666,6 +653,7 @@
 		);
 
 		calc(layer[skin_thumbborder].parent, 'skin_thumb_' + scene[get(newscenenameorindex)].index);
+		calc(layer[skin_collectborder].parent, 'skin_collect_' + scene[get(newscenenameorindex)].index);
 		loadscene(get(scene[get(newscenenameorindex)].name), null, get(skin_settings.loadscene_flags), get(blendmode));
 	</action>
 
