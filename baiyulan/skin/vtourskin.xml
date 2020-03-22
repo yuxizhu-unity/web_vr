@@ -49,6 +49,8 @@
 	<!-- iPhone X safe-area support: use the horizontal safe-area only -->	
 	<display safearea="h-only" />
 
+	<!-- style -->
+	<include url="./style.xml"/>
 	<!-- vr -->
 	<include url="./vr.xml"/>
 	<!-- menu context -->
@@ -84,55 +86,6 @@
 	<krpano stagescale="calc:stagescale * 2" if="stagescale LT 1.0" devices="mobile" />
 	
 
-
-
-	<!-- skin styles -->
-
-	<!-- skin_base - the base skin image -->
-	<style name="skin_base" url="calc:vtourskinxmlpath.url + skin_settings.design_skin_images" />
-
-	<!-- skin_glow - button glowing -->
-	<style name="skin_glow"
-	       ondown.addevent="copy(skin_lockglow,name); skin_buttonglow(get(name));"
-	       onover.addevent="if(skin_lockglow === null, copy(skin_lockglow,name); skin_buttonglow(get(name),0.3) );"
-	       onout.addevent="if(skin_lockglow === name AND !pressed, skin_buttonglow(null);delete(skin_lockglow); );"
-	       onup.addevent="delayedcall(0, if(hovering AND enabled, skin_buttonglow(get(name),0.3); , skin_buttonglow(null);delete(skin_lockglow); ); );"
-	       />
-
-	<!-- skin_thumbtext_style - style/textfield for the (optional, skin_settings.thumbs_text) thumbnails texts -->
-	<style name="skin_thumbtext_style" type="text" align="bottom" width="100%" y="5" enabled="false" bg="false" bgborder="false" css="calc:skin_settings.design_text_css + ' text-align:center; font-size:10px;'" textshadow="get:skin_settings.design_text_shadow" />
-
-	<!-- skin_hotspotstyle - style for the hotspots -->
-	<style name="skin_hotspotstyle" url="vtourskin_hotspot.png" edge="top" distorted="true"
-	       tooltip="tooltip"
-	       linkedscene=""
-	       linkedscene_lookat=""
-	       onclick="skin_hotspotstyle_click();"
-	       depth="1000"
-	       scale="0.5"
-	       onover="tween(scale,0.55);"
-	       onout="tween(scale,0.5);"
-	       onloaded="skin_hotspotstyle_setup();"
-	       />
-
-	<!-- the 'tooltip' style - show the tooltip textfield and update its position as long as hovering -->
-	<style name="tooltip"
-	       onover="copy(layer[tooltip].html, tooltip);
-	               set(layer[tooltip].visible, true);
-	               tween(layer[tooltip].alpha, 1.0, 0.5);
-	               asyncloop(hovering, copy(layer[tooltip].x,mouse.stagex); copy(layer[tooltip].y,mouse.stagey); );"
-	       onout="tween(layer[tooltip].alpha, 0.0, 0.25, default, set(layer[tooltip].visible,false), copy(layer[tooltip].x,mouse.stagex); copy(layer[tooltip].y,mouse.stagey); );"
-	       />
-	
-
-	<style name="skin_target_hotspot_style" url="vtourskin_target.png"
-	       ath="+15"
-		   atv="-12"
-		   scale="0.40"
-		   zoom="true"
-	       onclick="skin_hotspotstyle_click();"
-	       onloaded="do_crop_animation(128,128, 60);"
-	       />
 
 	<!--
 		do_crop_animation(framewidth, frameheight, framerate)
@@ -193,111 +146,6 @@
 	</action>
 	
 
-	<!-- skin_tooltip - style for the thumb, hotspot tooltips -->
-	<style name="skin_tooltips"
-	       onover.mouse="copy(layer[skin_tooltip].html, tooltip);
-	                     set(layer[skin_tooltip].visible, calc(webvr.isenabled ? false : true));
-	                     tween(layer[skin_tooltip].alpha, 1.0, 0.1);
-	                     asyncloop(hovering, copy(layer[skin_tooltip].x,mouse.stagex); copy(layer[skin_tooltip].y,mouse.stagey); );"
-	       onout.mouse="tween(layer[skin_tooltip].alpha, 0.0, 0.1, default, set(layer[skin_tooltip].visible,false), copy(layer[skin_tooltip].x,mouse.stagex); copy(layer[skin_tooltip].y,mouse.stagey); );"
-	       />
-
-
-	<!-- the tooltip textfield -->
-	<layer name="skin_tooltip" keep="true"
-	       type="text"
-	       parent="STAGE"
-	       visible="false" alpha="0" enabled="false" zorder="2"
-	       align="lefttop" edge="bottom" oy="-2" width="200"
-	       bg="false"
-	       textshadow="get:skin_settings.design_text_shadow" textshadowrange="6.0" textshadowangle="90" textshadowcolor="0x000000" textshadowalpha="1.0"
-	       css="calc:skin_settings.design_text_css + ' text-align:center; font-size:16px;'"
-	       html=""
-	       />
-
-	<!-- the info dialog -->
-	<layer name="info_dialog" type="container" visible="false" keep="true" zorder="9" children="true"
-	       align="center" x="0" y="0" width="80%" height="70%" bgcolor="0xFFFFFF" bgalpha="0.8">
-		   <layer name="info_dialog_close" url="close.png" width="25" height="25" align="topright" x="15" y="15" zorder="1" enabled="true" onclick="showinfo();"/>
-		   <layer name="info_dialog_content" type="text" width="100%" height="100%" bg="false" enabled="false" html="[div class='info-dialog'][h1 class='info-dialog-title']上海白玉兰广场VR[/h1][p class='info-dialog-description']上海白玉兰广场（Shanghai Sinar Mas Plaza），地处上海北外滩黄浦江沿岸地区，位于上海市虹口区东长治路588号，东临提篮桥地区，南面与陆家嘴隔江相望，西接外滩，北眺上海音乐谷[/p][/div]"
-		   />
-	</layer>
-
-	<!-- the phone book dialog -->
-	<layer name="phone_book_dialog" type="container" visible="false" keep="true" zorder="9" children="true"
-	       align="center" x="0" y="0" width="100%" height="100%" bgcolor="0x000000" bgalpha="0.45" bgcapture="true" onclick="onhotline();">
-		   	<layer name="phone_book_dialog_content" type="text" visible="true" keep="true" zorder="9" align="center" x="0" y="0" bgcolor="0xFFFFFF" bgalpha="1.0" bgroundedge="4"
-		   	html="[div class='phone-book'][ul class='phone-book-list'][li]热线一：[a href='tel://22866851']22866851[/a][/li][li]热线二：[a href='tel://22866888']22866888[/a][/li][/ul][/div]"
-			/>
-	</layer>
-
-	<!-- skin layout -->
-	<layer name="skin_layer" keep="true" type="container" align="top" width="get:skin_settings.layout_width" maxwidth="get:skin_settings.layout_maxwidth" height="100%" maskchildren="true" visible="false" bgcapture="false" zorder="1">
-		<layer name="logo_baiyulan" keep="true" type="text" url="logo_baiyulan.png" enabled="false" zorder="2" width="100" height="70" align="topleft" x="20" y="20"/>
-		<layer name="skin_scroll_window" type="container" align="bottom" width="100%" height="100%" x="0" y="40" maskchildren="true" onloaded="skin_calc_opened_closed();" zorder="1">
-			<layer name="skin_thumbs_scroll_layer" type="container" align="bottom" width="100%" height="100" x="0" y="110" accuracy="1" bgalpha="0.3" bgcolor="0x000000">
-				<layer name="skin_thumbs_scroll_container" type="container" align="leftbottom" width="100%" height="100%" x="0" y="10" maskchildren="true">
-					<layer name="skin_thumbs_container" keep="true" type="container" align="lefttop" y="10" width="100%" height="100%" visible="false">
-						<layer name="skin_thumbs" state="closed" url.flash="%VIEWER%/plugins/scrollarea.swf" url.html5="%VIEWER%/plugins/scrollarea.js" direction="h" align="top" width="100%" height="100" zorder="1" onloaded="skin_updatescroll();" onscroll="skin_updatethumbscroll();" />
-					</layer>
-				</layer>
-			</layer>
-			<layer name="skin_collects_scroll_layer" type="container" align="bottom" width="100%" height="100" x="0" y="0" accuracy="1" bgalpha="0.3" bgcolor="0x000000">
-				<layer name="skin_collects_scroll_container" type="container" align="leftbottom" width="100%" height="100%" x="0" y="10" maskchildren="true">
-					<layer name="skin_collects_container" keep="true" type="container" align="lefttop" y="10" width="100%" height="100%" visible="false">
-						<layer name="skin_collects" state="closed" url.flash="%VIEWER%/plugins/scrollarea.swf" url.html5="%VIEWER%/plugins/scrollarea.js" direction="h" align="top" width="100%" height="100" zorder="1" />
-					</layer>
-				</layer>
-			</layer>
-		</layer>
-
-		<layer name="bot_control_bar" type="container" align="bottom" width="100%" height="40" x="0" y="0" onloaded="skin_calc_opened_closed();" zorder="3">
-			<layer name="btn_menu" type="container" width="30" height="30" x="20" y="5" style="light_btn_style">
-				<layer name="btn_menu_icon" url="menu.png" align="center"  width="20" height="20" ondown="skin_togglemenu();"/>
-			</layer>
-			<layer name="btn_call" type="container" width="30" height="30" x="70" y="5" style="light_btn_style">
-				<layer name="btn_call_icon" url="call.png" align="center" width="25" height="25" onclick="onhotline();"/>
-			</layer>
-		</layer>
-
-		<layer name="right_control_bar" type="container" align="topright" width="25" height="100%" x="10" y="0" onloaded="skin_calc_opened_closed();" zorder="3">
-			<layer name="btn_info" type="container" width="25" height="25" x="0" y="20" style="dark_btn_style">
-				<layer name="btn_info_icon" url="info.png" align="center"  width="13" height="13" onclick="showinfo();"/>
-			</layer>
-			<layer name="btn_music" type="container" width="25" height="25" x="0" y="60" style="dark_btn_style">
-				<layer name="btn_music_icon" url="music.png" align="center"  width="13" height="13"/>
-			</layer>
-			<layer name="btn_vr" type="container" width="25" height="25" x="0" y="100" style="dark_btn_style">
-				<layer name="btn_vr_icon" url="vr.png" align="center"  width="18" height="18" onclick="webvr.enterVR();"/>
-			</layer>
-			<layer name="btn_fs" type="container" width="25" height="25" x="40" y="140" style="dark_btn_style">
-				<layer name="btn_fs_icon" url="fullscreen.png" align="center"  width="15" height="15" onclick="switch(fullscreen);" devices="fullscreensupport"/>
-			</layer>
-			<layer name="btn_gyro" type="container" width="25" height="25" x="0" y="180" style="dark_btn_style">
-				<layer name="btn_gyro_icon" url="around.png" align="center"  width="18" height="18" onclick="switch(plugin[skin_gyro].enabled); if(plugin[skin_gyro].enabled" devices="html5"/>
-			</layer>
-		</layer>
-
-		<layer name="skin_loadingtext" type="text" align="center" x="5" y="-5" html="get:skin_settings.loadingtext" visible="false" bg="false" enabled="false" css="calc:skin_settings.design_text_css + ' text-align:center; font-style:italic; font-size:22px;'" textshadow="get:skin_settings.design_text_shadow" />
-		<layer name="skin_buttonglow"  style="skin_base" crop="64|384|64|64" align="center" x="0" y="1" scale="1.0" alpha="0.0" visible="false" enabled="false" />
-		<layer name="skin_thumbborder" type="container" x="get:skin_settings.design_thumbborder_padding" y="get:skin_settings.design_thumbborder_padding" width="calc:skin_settings.thumbs_width - 2*skin_settings.design_thumbborder_padding" height="calc:skin_settings.thumbs_height - 2*skin_settings.design_thumbborder_padding" visible="false" enabled="false" align="lefttop" bgborder="get:skin_settings.design_thumbborder_bgborder" bgroundedge="get:skin_settings.design_thumbborder_bgroundedge" />
-		<layer name="skin_collectborder" type="container" x="get:skin_settings.design_thumbborder_padding" y="get:skin_settings.design_thumbborder_padding" width="calc:skin_settings.thumbs_width - 2*skin_settings.design_thumbborder_padding" height="calc:skin_settings.thumbs_height - 2*skin_settings.design_thumbborder_padding" visible="false" enabled="false" align="lefttop" bgborder="get:skin_settings.design_thumbborder_bgborder" bgroundedge="get:skin_settings.design_thumbborder_bgroundedge" />
-	</layer>
-
-	<style name="light_btn_style"
-           bgalpha="0.6"
-           bgcolor="0xFFFFFF"
-           bgborder="1 0xFFFFFF 0.5"
-           bgroundedge="15"
-           bgshadow="0 1 3 0x000000 0.6"
-           />
-
-	<style name="dark_btn_style"
-           bgalpha="0.35"
-           bgcolor="0x000000"
-           bgroundedge="15"
-           />
-
 	<!-- gyro plugin -->
 	<plugin name="skin_gyro" keep="true" url="" html5_url="%VIEWER%/plugins/gyro2.js" softstart="1.0" desktopsupport="false" enabled="false" onavailable="arrange_buttons();" devices="html5" />
 
@@ -308,7 +156,7 @@
 	        onnewpano="skin_update_scene_infos(); skin_deeplinking_update_url();"
 	        onloadcomplete="skin_showloading(false);"
 	        onidle="skin_deeplinking_update_url();"
-	        onresize="skin_onresize();"
+	        onresize="onresize();"
 	        onenterfullscreen.fullscreensupport="set(layer[btn_fs].visible, true);"
 	        onexitfullscreen.fullscreensupport="set(layer[btn_fs].visible, false);"
 	        onkeydown="skin_keydown_event();"
@@ -343,23 +191,14 @@
 			skin_setup_littleplanetintro();
 		);
 
-		skin_addcollects();
-		skin_addthumbs();
-		skin_showthumbs(get(scene[0].collect));
-		skin_onresize();
+		load_thumbs();
+		load_collects();
+		onresize();
 		skin_updatescroll();
 
 		set(layer[skin_layer].visible, true);
 	</action>
 
-	<action name="oncollectborder" scope="local" args="parentname">
-		copy(layer[skin_collectborder].parent, get(parentname));
-		if(layer[get(parentname)],
-			set(layer[skin_collectborder], parent=get(parentname), visible=true);
-			,
-			set(layer[skin_collectborder].visible, false);
-		);
-	</action>
 
 	<action name="showinfo" scope="local">
 		calc(prev, get(layer[info_dialog].visible));
@@ -371,7 +210,7 @@
 		if(prev, set(layer[phone_book_dialog].visible, false), set(layer[phone_book_dialog].visible, true));
 	</action>
 
-	<action name="skin_addcollects" scope="local">
+	<action name="load_collects" scope="local">
 		def(actualcount, integer, 0);
 		copy(thumbwidth, skin_settings.thumbs_width);
 		copy(thumbheight, skin_settings.thumbs_height);
@@ -380,9 +219,9 @@
 		calc(thumbxoffset, thumbwidth + thumbpadding);
 		
 		for(set(i,0), i LT scene.count, inc(i),
-			if(get(scene[get(i)].collecttitle)!==null AND get(scene[get(i)].collect)!==null,
+			if(get(scene[get(i)].collecttitle)!==null AND get(scene[get(i)].collecttype)!==null,
 				add(actualcount, 1);
-				calc(collectname, 'skin_collect_' + i);
+				calc(collectname, 'collect_' + actualcount);
 				addlayer(get(collectname));
 				set(layer[get(collectname)],
 					url=get(scene[get(i)].thumburl),
@@ -394,8 +233,8 @@
 					height=get(thumbheight),
 					x=calc(thumbpadding + (actualcount-1)*thumbxoffset),
 					y=get(thumbpadding),
-					collectname=get(scene[get(i)].collect),
-					onclick='oncollectborder(get(name)); skin_showthumbs(get(collectname));'
+					collecttype=get(scene[get(i)].collecttype),
+					onclick='select_collect(get(collecttype), get(name)));'
 				);
 				
 				if(skin_settings.tooltips_thumbs,
@@ -418,9 +257,15 @@
 		if(actualcount == 1,
 			set(layer[skin_collects].align, 'lefttop');
 		);
+
+		<!-- show first collect -->
+		if(actualcount GE 1,
+			select_collect(get(layer['collect_1'].collecttype), get(layer['collect_1'].name));
+		);
 	</action>
 
-	<action name="skin_showthumbs" scope="local" args="collectname">
+	<action name="select_collect" scope="local" args="collecttype, collectname">
+		
 		def(count, integer, 0);
 		copy(thumbwidth, skin_settings.thumbs_width);
 		copy(thumbheight, skin_settings.thumbs_height);
@@ -428,19 +273,28 @@
 		calc(thumbxoffset, thumbwidth + thumbpadding);
 		for(set(i,0), i LT scene.count, inc(i),
 			calc(thumbname, 'skin_thumb_' + i);
-			if(layer[get(thumbname)].collectname===collectname,
+			if(layer[get(thumbname)].collecttype===collecttype,
 				add(count, 1);
 				set(layer[get(thumbname)].visible, true);
 				set(layer[get(thumbname)].x, calc(thumbpadding + (count-1)*thumbxoffset));
 				,set(layer[get(thumbname)].visible, false);
 			);
+
 		);
 		calc(thumbbarwidth, thumbxoffset * count + thumbpadding);
 		calc(thumbbarheight, thumbpadding + thumbheight + thumbpadding);
 		set(layer[skin_thumbs], width=get(thumbbarwidth), height=get(thumbbarheight) );
+
+		<!-- selected -->
+		if(layer[get(collectname)],
+			trace(get(collectname)); 
+			set(layer[collectborder], parent=get(collectname), visible=true);
+			,
+			set(layer[collectborder].visible, false);
+		);
 	</action>
 
-	<action name="skin_addthumbs" scope="local">
+	<action name="load_thumbs" scope="local">
 		copy(thumbwidth, skin_settings.thumbs_width);
 		copy(thumbheight, skin_settings.thumbs_height);
 		copy(thumbcrop, skin_settings.thumbs_crop);
@@ -460,9 +314,9 @@
 				height=get(thumbheight),
 				y=get(thumbpadding)
 				visible=false,
-				collectname=get(scene[get(i)].collect),
+				collecttype=get(scene[get(i)].collecttype),
 				linkedscene=get(scene[get(i)].name),
-				onclick='copy(layer[skin_thumbborder].parent, name); skin_loadscene(get(linkedscene),get(skin_settings.loadscene_blend));'
+				onclick='skin_loadscene(get(linkedscene),get(skin_settings.loadscene_blend));'
 			);
 
 			
@@ -555,12 +409,7 @@
 		lookat(get(h), get(v), get(fov));
 	</action>
 
-
-	<action name="skin_onresize" scope="local">
-		<!-- mul(mh, area.pixelheight, -1);
-		if(layer[skin_thumbs].state == 'opened', add(mh,layer[skin_thumbs].height););
-		if(layer[skin_collects].state == 'opened', add(mh,layer[skin_collects].height););
-		if(display.safearea_inset, calc(layer[skin_btn_show].y, skin_settings.controlbar_height - (display.safearea_inset.b LT 0 ? display.safearea_inset.b : 0)); ); -->
+	<action name="onresize" scope="local">
 		arrange_buttons();
 	</action>
 
@@ -605,9 +454,9 @@
 
 			calc(parentname, 'skin_thumb_' + scene[get(xml.scene)].index);
 			if(layer[get(parentname)],
-				set(layer[skin_thumbborder], parent=get(parentname), visible=true);
+				set(layer[thumbborder], parent=get(parentname), visible=true);
 			  ,
-				set(layer[skin_thumbborder].visible, false);
+				set(layer[thumbborder].visible, false);
 			);
 
 			if(plugin[skin_gyro].isavailable == true AND view.vlookatrange == 180,
@@ -663,8 +512,7 @@
 			set(hotspot[skin_webvr_next_scene].visible, false);
 		);
 
-		calc(layer[skin_thumbborder].parent, 'skin_thumb_' + scene[get(newscenenameorindex)].index);
-		calc(layer[skin_collectborder].parent, 'skin_collect_' + scene[get(newscenenameorindex)].index);
+		calc(layer[thumbborder].parent, 'skin_thumb_' + scene[get(newscenenameorindex)].index);
 		loadscene(get(scene[get(newscenenameorindex)].name), null, get(skin_settings.loadscene_flags), get(blendmode));
 	</action>
 

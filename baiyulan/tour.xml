@@ -9,7 +9,89 @@
 		if(startactions !== null, startactions() );
 	</action>
 
-	<scene name="scene_PANO0001_Panorama_equi" collect="aerial_photography" collecttitle="航拍" title="广场高空全景" onstart="" thumburl="panos/PANO0001_Panorama_equi.tiles/thumb.jpg" lat="" lng="" heading="">
+	<!-- skin layout -->
+	<layer name="skin_layer" keep="true" type="container" align="top" width="get:skin_settings.layout_width" maxwidth="get:skin_settings.layout_maxwidth" height="100%" maskchildren="true" visible="false" bgcapture="false" zorder="1">
+		<layer name="logo_baiyulan" keep="true" type="text" url="./skin/logo_baiyulan.png" enabled="false" zorder="2" width="100" height="70" align="topleft" x="20" y="20"/>
+		<layer name="skin_scroll_window" type="container" align="bottom" width="100%" height="100%" x="0" y="40" maskchildren="true" onloaded="skin_calc_opened_closed();" zorder="1">
+			<layer name="skin_thumbs_scroll_layer" type="container" align="bottom" width="100%" height="100" x="0" y="110" accuracy="1" bgalpha="0.3" bgcolor="0x000000">
+				<layer name="skin_thumbs_scroll_container" type="container" align="leftbottom" width="100%" height="100%" x="0" y="10" maskchildren="true">
+					<layer name="skin_thumbs_container" keep="true" type="container" align="lefttop" y="10" width="100%" height="100%" visible="false">
+						<layer name="skin_thumbs" state="closed" url.flash="%VIEWER%/plugins/scrollarea.swf" url.html5="%VIEWER%/plugins/scrollarea.js" direction="h" align="top" width="100%" height="100" zorder="1" onloaded="skin_updatescroll();" onscroll="skin_updatethumbscroll();" />
+					</layer>
+				</layer>
+			</layer>
+			<layer name="skin_collects_scroll_layer" type="container" align="bottom" width="100%" height="100" x="0" y="0" accuracy="1" bgalpha="0.3" bgcolor="0x000000">
+				<layer name="skin_collects_scroll_container" type="container" align="leftbottom" width="100%" height="100%" x="0" y="10" maskchildren="true">
+					<layer name="skin_collects_container" keep="true" type="container" align="lefttop" y="10" width="100%" height="100%" visible="false">
+						<layer name="skin_collects" state="closed" url.flash="%VIEWER%/plugins/scrollarea.swf" url.html5="%VIEWER%/plugins/scrollarea.js" direction="h" align="top" width="100%" height="100" zorder="1" />
+					</layer>
+				</layer>
+			</layer>
+		</layer>
+
+		<layer name="bot_control_bar" type="container" align="bottom" width="100%" height="40" x="0" y="0" onloaded="skin_calc_opened_closed();" zorder="3">
+			<layer name="btn_menu" type="container" width="30" height="30" x="20" y="5" style="light_btn_style">
+				<layer name="btn_menu_icon" url="./skin/menu.png" align="center"  width="20" height="20" ondown="skin_togglemenu();"/>
+			</layer>
+			<layer name="btn_call" type="container" width="30" height="30" x="70" y="5" style="light_btn_style">
+				<layer name="btn_call_icon" url="./skin/call.png" align="center" width="25" height="25" onclick="onhotline();"/>
+			</layer>
+		</layer>
+
+		<layer name="right_control_bar" type="container" align="topright" width="25" height="100%" x="10" y="0" onloaded="skin_calc_opened_closed();" zorder="3">
+			<layer name="btn_info" type="container" width="25" height="25" x="0" y="20" style="dark_btn_style">
+				<layer name="btn_info_icon" url="./skin/info.png" align="center"  width="13" height="13" onclick="showinfo();"/>
+			</layer>
+			<layer name="btn_music" type="container" width="25" height="25" x="0" y="60" style="dark_btn_style">
+				<layer name="btn_music_icon" url="./skin/music.png" align="center"  width="13" height="13"/>
+			</layer>
+			<layer name="btn_vr" type="container" width="25" height="25" x="0" y="100" style="dark_btn_style">
+				<layer name="btn_vr_icon" url="./skin/vr.png" align="center"  width="18" height="18" onclick="webvr.enterVR();"/>
+			</layer>
+			<layer name="btn_fs" type="container" width="25" height="25" x="40" y="140" style="dark_btn_style">
+				<layer name="btn_fs_icon" url="./skin/fullscreen.png" align="center"  width="15" height="15" onclick="switch(fullscreen);" devices="fullscreensupport"/>
+			</layer>
+			<layer name="btn_gyro" type="container" width="25" height="25" x="0" y="180" style="dark_btn_style">
+				<layer name="btn_gyro_icon" url="./skin/around.png" align="center"  width="18" height="18" onclick="switch(plugin[skin_gyro].enabled); if(plugin[skin_gyro].enabled" devices="html5"/>
+			</layer>
+		</layer>
+
+		<layer name="skin_loadingtext" type="text" align="center" x="5" y="-5" html="get:skin_settings.loadingtext" visible="false" bg="false" enabled="false" css="calc:skin_settings.design_text_css + ' text-align:center; font-style:italic; font-size:22px;'" textshadow="get:skin_settings.design_text_shadow" />
+		<layer name="skin_buttonglow"  style="skin_base" crop="64|384|64|64" align="center" x="0" y="1" scale="1.0" alpha="0.0" visible="false" enabled="false" />
+		<layer name="thumbborder" type="container" x="get:skin_settings.design_thumbborder_padding" y="get:skin_settings.design_thumbborder_padding" width="calc:skin_settings.thumbs_width - 2*skin_settings.design_thumbborder_padding" height="calc:skin_settings.thumbs_height - 2*skin_settings.design_thumbborder_padding" visible="false" enabled="false" align="lefttop" bgborder="get:skin_settings.design_thumbborder_bgborder" bgroundedge="get:skin_settings.design_thumbborder_bgroundedge" />
+		<layer name="collectborder" type="container" x="get:skin_settings.design_thumbborder_padding" y="get:skin_settings.design_thumbborder_padding" width="calc:skin_settings.thumbs_width - 2*skin_settings.design_thumbborder_padding" height="calc:skin_settings.thumbs_height - 2*skin_settings.design_thumbborder_padding" visible="false" enabled="false" align="lefttop" bgborder="get:skin_settings.design_thumbborder_bgborder" bgroundedge="get:skin_settings.design_thumbborder_bgroundedge" />
+	</layer>
+
+	<!-- the info dialog -->
+	<layer name="info_dialog" type="container" visible="false" keep="true" zorder="9" children="true"
+	       align="center" x="0" y="0" width="80%" height="70%" bgcolor="0xFFFFFF" bgalpha="0.8">
+		   <layer name="info_dialog_close" url="./skin/close.png" width="25" height="25" align="topright" x="15" y="15" zorder="1" enabled="true" onclick="showinfo();"/>
+		   <layer name="info_dialog_content" type="text" width="100%" height="100%" bg="false" enabled="false" html="[div class='info-dialog'][h1 class='info-dialog-title']上海白玉兰广场VR[/h1][p class='info-dialog-description']上海白玉兰广场（Shanghai Sinar Mas Plaza），地处上海北外滩黄浦江沿岸地区，位于上海市虹口区东长治路588号，东临提篮桥地区，南面与陆家嘴隔江相望，西接外滩，北眺上海音乐谷[/p][/div]"
+		   />
+	</layer>
+
+	<!-- the phone book dialog -->
+	<layer name="phone_book_dialog" type="container" visible="false" keep="true" zorder="9" children="true"
+	       align="center" x="0" y="0" width="100%" height="100%" bgcolor="0x000000" bgalpha="0.45" bgcapture="true" onclick="onhotline();">
+		   	<layer name="phone_book_dialog_content" type="text" visible="true" keep="true" zorder="9" align="center" x="0" y="0" bgcolor="0xFFFFFF" bgalpha="1.0" bgroundedge="4"
+		   	html="[div class='phone-book'][ul class='phone-book-list'][li]热线一：[a href='tel://22866851']22866851[/a][/li][li]热线二：[a href='tel://22866888']22866888[/a][/li][/ul][/div]"
+			/>
+	</layer>
+
+	<!-- the tooltip textfield -->
+	<layer name="skin_tooltip" keep="true"
+	       type="text"
+	       parent="STAGE"
+	       visible="false" alpha="0" enabled="false" zorder="2"
+	       align="lefttop" edge="bottom" oy="-2" width="200"
+	       bg="false"
+	       textshadow="get:skin_settings.design_text_shadow" textshadowrange="6.0" textshadowangle="90" textshadowcolor="0x000000" textshadowalpha="1.0"
+	       css="calc:skin_settings.design_text_css + ' text-align:center; font-size:16px;'"
+	       html=""
+	       />
+
+
+	<scene name="scene_PANO0001_Panorama_equi" collecttype="aerial_photography" collecttitle="航拍" title="广场高空全景" onstart="" thumburl="panos/PANO0001_Panorama_equi.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="0.326" vlookat="58.430" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -24,7 +106,7 @@
  
 	</scene>
 
-	<scene name="scene_2S5A7642-HDR_Panorama" collect="office_building" collecttitle="办公楼塔" title="办公楼南广场" onstart="" thumburl="panos/2S5A7642-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A7642-HDR_Panorama" collecttype="office_building" collecttitle="办公楼塔" title="办公楼南广场" onstart="" thumburl="panos/2S5A7642-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-130.081" vlookat="3.933" fovtype="MFOV" fov="121.829" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -37,7 +119,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A7401-HDR_Panorama" collect="office_building" title="UG层电梯入口" onstart="" thumburl="panos/2S5A7401-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A7401-HDR_Panorama" collecttype="office_building" title="UG层电梯入口" onstart="" thumburl="panos/2S5A7401-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-27.320" vlookat="5.696" fovtype="MFOV" fov="90.932" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -50,7 +132,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A7461-HDR_Panorama" collect="office_building" title="UG入口" onstart="" thumburl="panos/2S5A7461-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A7461-HDR_Panorama" collecttype="office_building" title="UG入口" onstart="" thumburl="panos/2S5A7461-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-17.095" vlookat="7.488" fovtype="MFOV" fov="92.224" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -63,7 +145,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A6076-HDR_Panorama" collect="office_building" title="电梯厅" onstart="" thumburl="panos/2S5A6076-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A6076-HDR_Panorama" collecttype="office_building" title="电梯厅" onstart="" thumburl="panos/2S5A6076-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="89.575" vlookat="13.277" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -76,7 +158,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A5956-HDR_Panorama" collect="office_building" title="低区景观房" onstart="" thumburl="panos/2S5A5956-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A5956-HDR_Panorama" collecttype="office_building" title="低区景观房" onstart="" thumburl="panos/2S5A5956-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -88,7 +170,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A6246-HDR_Panorama_equi" collect="office_building" title="转化层空中大堂" onstart="" thumburl="panos/2S5A6246-HDR_Panorama_equi.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A6246-HDR_Panorama_equi" collecttype="office_building" title="转化层空中大堂" onstart="" thumburl="panos/2S5A6246-HDR_Panorama_equi.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-55.365" vlookat="15.453" fovtype="MFOV" fov="128.984" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -101,7 +183,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A6501-HDR_Panorama" collect="office_building" title="空中大堂" onstart="" thumburl="panos/2S5A6501-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A6501-HDR_Panorama" collecttype="office_building" title="空中大堂" onstart="" thumburl="panos/2S5A6501-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-20.408" vlookat="22.204" fovtype="MFOV" fov="119.257" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -114,7 +196,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A6631-HDR_Panorama" collect="office_building" title="空中大堂" onstart="" thumburl="panos/2S5A6631-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A6631-HDR_Panorama" collecttype="office_building" title="空中大堂" onstart="" thumburl="panos/2S5A6631-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="48.569" vlookat="16.651" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -127,7 +209,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A6986-HDR_Panorama" collect="office_building" title="高区样板层1" onstart="" thumburl="panos/2S5A6986-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A6986-HDR_Panorama" collecttype="office_building" title="高区样板层1" onstart="" thumburl="panos/2S5A6986-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="79.046" vlookat="2.072" fovtype="MFOV" fov="93.744" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -140,7 +222,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A7181-HDR_Panorama_equi" collect="office_building" title="高区样板层2" onstart="" thumburl="panos/2S5A7181-HDR_Panorama_equi.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A7181-HDR_Panorama_equi" collecttype="office_building" title="高区样板层2" onstart="" thumburl="panos/2S5A7181-HDR_Panorama_equi.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-39.873" vlookat="6.898" fovtype="MFOV" fov="86.651" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -153,7 +235,7 @@
 
 	</scene>
 
-	<scene name="scene_PANO0001_Panorama_(2)_equi" collect="office_building" title="直升机停机坪" onstart="" thumburl="panos/PANO0001_Panorama_(2)_equi.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_PANO0001_Panorama_(2)_equi" collecttype="office_building" title="直升机停机坪" onstart="" thumburl="panos/PANO0001_Panorama_(2)_equi.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-8.135" vlookat="30.506" fovtype="MFOV" fov="90.195" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -165,7 +247,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A7887-HDR_Panorama" collect="shopping_center" collecttitle="购物中心" title="东长治路出入口及北广场" onstart="" thumburl="panos/2S5A7887-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A7887-HDR_Panorama" collecttype="shopping_center" collecttitle="购物中心" title="东长治路出入口及北广场" onstart="" thumburl="panos/2S5A7887-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="0.827" vlookat="-3.761" fovtype="MFOV" fov="94.472" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -178,7 +260,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A5741-HDR_Panorama" collect="shopping_center" title="L1层室内区域" onstart="" thumburl="panos/2S5A5741-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A5741-HDR_Panorama" collecttype="shopping_center" title="L1层室内区域" onstart="" thumburl="panos/2S5A5741-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-7.366" vlookat="10.848" fovtype="MFOV" fov="109.398" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -192,7 +274,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A5826-HDR_Panorama" collect="shopping_center" title="L2层室内区域" onstart="" thumburl="panos/2S5A5826-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A5826-HDR_Panorama" collecttype="shopping_center" title="L2层室内区域" onstart="" thumburl="panos/2S5A5826-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="8.471" vlookat="14.674" fovtype="MFOV" fov="105.689" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -205,7 +287,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A5891-HDR_Panorama" collect="shopping_center" title="L3层室内区域" onstart="" thumburl="panos/2S5A5891-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A5891-HDR_Panorama" collecttype="shopping_center" title="L3层室内区域" onstart="" thumburl="panos/2S5A5891-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-8.011" vlookat="18.156" fovtype="MFOV" fov="99.203" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -218,7 +300,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A7812-HDR_Panorama" collect="shopping_center" title="L3层半室外区域" onstart="" thumburl="panos/2S5A7812-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A7812-HDR_Panorama" collecttype="shopping_center" title="L3层半室外区域" onstart="" thumburl="panos/2S5A7812-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="71.595" vlookat="20.143" fovtype="MFOV" fov="117.119" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -231,7 +313,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A5471-HDR_Panorama" collect="shopping_center" title="LG1层室内区域1" onstart="" thumburl="panos/2S5A5471-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A5471-HDR_Panorama" collecttype="shopping_center" title="LG1层室内区域1" onstart="" thumburl="panos/2S5A5471-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-3.365" vlookat="4.024" fovtype="MFOV" fov="119.443" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -246,7 +328,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A5541-HDR_Panorama" collect="shopping_center" title="LG1层室内区域2" onstart="" thumburl="panos/2S5A5541-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A5541-HDR_Panorama" collecttype="shopping_center" title="LG1层室内区域2" onstart="" thumburl="panos/2S5A5541-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -259,7 +341,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A5606-HDR_Panorama" collect="shopping_center" title="LG1层室内区域3" onstart="" thumburl="panos/2S5A5606-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A5606-HDR_Panorama" collecttype="shopping_center" title="LG1层室内区域3" onstart="" thumburl="panos/2S5A5606-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="9.947" vlookat="13.043" fovtype="MFOV" fov="99.610" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -272,7 +354,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A5666-HDR_Panorama" collect="shopping_center" title="LG1层室外区域" onstart="" thumburl="panos/2S5A5666-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A5666-HDR_Panorama" collecttype="shopping_center" title="LG1层室外区域" onstart="" thumburl="panos/2S5A5666-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-356.865" vlookat="27.858" fovtype="MFOV" fov="135.865" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -285,7 +367,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A5356-HDR_Panorama" collect="shopping_center" title="LG2层室内中庭" onstart="" thumburl="panos/2S5A5356-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A5356-HDR_Panorama" collecttype="shopping_center" title="LG2层室内中庭" onstart="" thumburl="panos/2S5A5356-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-10.035" vlookat="23.103" fovtype="MFOV" fov="123.428" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -299,7 +381,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A5301-HDR_Panorama" collect="shopping_center" title="LG2层室内区域" onstart="" thumburl="panos/2S5A5301-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A5301-HDR_Panorama" collecttype="shopping_center" title="LG2层室内区域" onstart="" thumburl="panos/2S5A5301-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-15.403" vlookat="9.564" fovtype="MFOV" fov="98.518" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -312,7 +394,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A5207_Panorama" collect="shopping_center" title="LG2层小木屋区域1" onstart="" thumburl="panos/2S5A5207_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A5207_Panorama" collecttype="shopping_center" title="LG2层小木屋区域1" onstart="" thumburl="panos/2S5A5207_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-148.351" vlookat="16.782" fovtype="MFOV" fov="110.111" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -325,7 +407,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A5290_Panorama" collect="shopping_center" title="LG2层小木屋区域2" onstart="" thumburl="panos/2S5A5290_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A5290_Panorama" collecttype="shopping_center" title="LG2层小木屋区域2" onstart="" thumburl="panos/2S5A5290_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-12.873" vlookat="16.868" fovtype="MFOV" fov="111.696" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -338,7 +420,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A5411-HDR_Panorama" collect="shopping_center" title="LG2层半室外区域" onstart="" thumburl="panos/2S5A5411-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A5411-HDR_Panorama" collecttype="shopping_center" title="LG2层半室外区域" onstart="" thumburl="panos/2S5A5411-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-2.042" vlookat="8.410" fovtype="MFOV" fov="118.893" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -351,7 +433,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A8017-HDR_Panorama" collect="w-hotel" collecttitle="外滩W酒店" title="酒店入口" onstart="" thumburl="panos/2S5A8017-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A8017-HDR_Panorama" collecttype="w-hotel" collecttitle="外滩W酒店" title="酒店入口" onstart="" thumburl="panos/2S5A8017-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-22.855" vlookat="9.776" fovtype="MFOV" fov="113.186" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -364,7 +446,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A4782_Panorama_equi" collect="w-hotel" title="1层大堂" onstart="" thumburl="panos/2S5A4782_Panorama_equi.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A4782_Panorama_equi" collecttype="w-hotel" title="1层大堂" onstart="" thumburl="panos/2S5A4782_Panorama_equi.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-267.688" vlookat="3.541" fovtype="MFOV" fov="121.422" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -378,7 +460,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A4635-HDR_Panorama" collect="w-hotel" title="1层大堂" onstart="" thumburl="panos/2S5A4635-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A4635-HDR_Panorama" collecttype="w-hotel" title="1层大堂" onstart="" thumburl="panos/2S5A4635-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-20.748" vlookat="3.885" fovtype="MFOV" fov="109.770" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -391,7 +473,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A4695-HDR_Panorama" collect="w-hotel" title="1层大堂" onstart="" thumburl="panos/2S5A4695-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A4695-HDR_Panorama" collecttype="w-hotel" title="1层大堂" onstart="" thumburl="panos/2S5A4695-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -404,7 +486,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A4866-HDR_Panorama" collect="w-hotel" title="1楼宴会厅入口" onstart="" thumburl="panos/2S5A4866-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A4866-HDR_Panorama" collecttype="w-hotel" title="1楼宴会厅入口" onstart="" thumburl="panos/2S5A4866-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="69.687" vlookat="7.053" fovtype="MFOV" fov="100.757" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -417,7 +499,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A4926-HDR_Panorama" collect="w-hotel" title="W层大堂" onstart="" thumburl="panos/2S5A4926-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A4926-HDR_Panorama" collecttype="w-hotel" title="W层大堂" onstart="" thumburl="panos/2S5A4926-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-152.625" vlookat="12.368" fovtype="MFOV" fov="109.040" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -430,7 +512,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A4996-HDR_Panorama" collect="w-hotel" title="W层Woobar" onstart="" thumburl="panos/2S5A4996-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A4996-HDR_Panorama" collecttype="w-hotel" title="W层Woobar" onstart="" thumburl="panos/2S5A4996-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="5.411" vlookat="12.499" fovtype="MFOV" fov="101.566" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -443,7 +525,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A5061-HDR_Panorama" collect="w-hotel" title="W层Woobar" onstart="" thumburl="panos/2S5A5061-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A5061-HDR_Panorama" collecttype="w-hotel" title="W层Woobar" onstart="" thumburl="panos/2S5A5061-HDR_Panorama.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -456,7 +538,7 @@
 
 	</scene>
 
-	<scene name="scene_2S5A7558-HDR_Panorama_equi" collect="w-hotel" title="W层室外景观" onstart="" thumburl="panos/2S5A7558-HDR_Panorama_equi.tiles/thumb.jpg" lat="" lng="" heading="">
+	<scene name="scene_2S5A7558-HDR_Panorama_equi" collecttype="w-hotel" title="W层室外景观" onstart="" thumburl="panos/2S5A7558-HDR_Panorama_equi.tiles/thumb.jpg" lat="" lng="" heading="">
 
 		<view hlookat="-126.141" vlookat="8.938" fovtype="MFOV" fov="119.706" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
 
@@ -468,16 +550,6 @@
 		<hotspot name="spot1" style="skin_hotspotstyle" ath="-5.819" atv="12.015" linkedscene="scene_2s5a8017-hdr_panorama" />
 
 	</scene>
-
-	
-
-	
-
-	
-
-	
-
-	
 
 	<!-- <scene name="scene_2S5A5121_Panorama_equi_equi" title="2S5A5121 Panorama_equi_equi" onstart="" thumburl="panos/2S5A5121_Panorama_equi_equi.tiles/thumb.jpg" lat="" lng="" heading="">
 
@@ -708,10 +780,6 @@
 		</image>
 
 	</scene> -->
-
-	
-
-	
 
 
 </krpano>

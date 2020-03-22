@@ -48,7 +48,7 @@
 		);
 				
 		<!-- update the skin buttons to add the skin vr button -->
-		skin_arrange_buttons();
+		<!-- skin_arrange_buttons(); -->
 			
 		<!-- call the original onavailable event from the webvr.xml -->
 		webvr_onavailable();

@@ -1,0 +1,71 @@
+<krpano>
+
+    <!-- skin_base - the base skin image -->
+	<style name="skin_base" url="calc:vtourskinxmlpath.url + skin_settings.design_skin_images" />
+
+	<!-- skin_glow - button glowing -->
+	<style name="skin_glow"
+	       ondown.addevent="copy(skin_lockglow,name); skin_buttonglow(get(name));"
+	       onover.addevent="if(skin_lockglow === null, copy(skin_lockglow,name); skin_buttonglow(get(name),0.3) );"
+	       onout.addevent="if(skin_lockglow === name AND !pressed, skin_buttonglow(null);delete(skin_lockglow); );"
+	       onup.addevent="delayedcall(0, if(hovering AND enabled, skin_buttonglow(get(name),0.3); , skin_buttonglow(null);delete(skin_lockglow); ); );"
+	       />
+
+	<!-- skin_thumbtext_style - style/textfield for the (optional, skin_settings.thumbs_text) thumbnails texts -->
+	<style name="skin_thumbtext_style" type="text" align="bottom" width="100%" y="5" enabled="false" bg="false" bgborder="false" css="calc:skin_settings.design_text_css + ' text-align:center; font-size:10px;'" textshadow="get:skin_settings.design_text_shadow" />
+
+	<!-- skin_hotspotstyle - style for the hotspots -->
+	<style name="skin_hotspotstyle" url="vtourskin_hotspot.png" edge="top" distorted="true"
+	       tooltip="tooltip"
+	       linkedscene=""
+	       linkedscene_lookat=""
+	       onclick="skin_hotspotstyle_click();"
+	       depth="1000"
+	       scale="0.5"
+	       onover="tween(scale,0.55);"
+	       onout="tween(scale,0.5);"
+	       onloaded="skin_hotspotstyle_setup();"
+	       />
+
+	<!-- the 'tooltip' style - show the tooltip textfield and update its position as long as hovering -->
+	<style name="tooltip"
+	       onover="copy(layer[tooltip].html, tooltip);
+	               set(layer[tooltip].visible, true);
+	               tween(layer[tooltip].alpha, 1.0, 0.5);
+	               asyncloop(hovering, copy(layer[tooltip].x,mouse.stagex); copy(layer[tooltip].y,mouse.stagey); );"
+	       onout="tween(layer[tooltip].alpha, 0.0, 0.25, default, set(layer[tooltip].visible,false), copy(layer[tooltip].x,mouse.stagex); copy(layer[tooltip].y,mouse.stagey); );"
+	       />
+	
+
+	<style name="skin_target_hotspot_style" url="vtourskin_target.png"
+	       ath="+15"
+		   atv="-12"
+		   scale="0.40"
+		   zoom="true"
+	       onclick="skin_hotspotstyle_click();"
+	       onloaded="do_crop_animation(128,128, 60);"
+	       />
+
+	<!-- skin_tooltip - style for the thumb, hotspot tooltips -->
+	<style name="skin_tooltips"
+	       onover.mouse="copy(layer[skin_tooltip].html, tooltip);
+	                     set(layer[skin_tooltip].visible, calc(webvr.isenabled ? false : true));
+	                     tween(layer[skin_tooltip].alpha, 1.0, 0.1);
+	                     asyncloop(hovering, copy(layer[skin_tooltip].x,mouse.stagex); copy(layer[skin_tooltip].y,mouse.stagey); );"
+	       onout.mouse="tween(layer[skin_tooltip].alpha, 0.0, 0.1, default, set(layer[skin_tooltip].visible,false), copy(layer[skin_tooltip].x,mouse.stagex); copy(layer[skin_tooltip].y,mouse.stagey); );"
+	       />
+
+	<style name="light_btn_style"
+           bgalpha="0.6"
+           bgcolor="0xFFFFFF"
+           bgborder="1 0xFFFFFF 0.5"
+           bgroundedge="15"
+           bgshadow="0 1 3 0x000000 0.6"
+           />
+
+	<style name="dark_btn_style"
+           bgalpha="0.35"
+           bgcolor="0x000000"
+           bgroundedge="15"
+           />
+</krpano>
